@@ -1,7 +1,7 @@
 import { Input } from 'antd';
 import React from 'react';
 
-import { FormComposerList } from './List';
+import { FormComposerList } from './list';
 import { AnyObject } from './types';
 
 /**

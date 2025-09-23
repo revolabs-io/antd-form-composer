@@ -28,7 +28,7 @@ import type { MentionProps } from 'antd/es/mentions';
 import type { SliderRangeProps, SliderSingleProps } from 'antd/es/slider';
 import React from 'react';
 
-import { FormComposerListProps } from './List';
+import { FormComposerListProps } from './list';
 
 /**
  * Type for column span configuration.

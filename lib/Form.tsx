@@ -1,7 +1,7 @@
 import { Form, FormProps } from 'antd';
 import React from 'react';
 
-import { FormComposerItems, FormComposerItemsProps } from './Items';
+import { FormComposerItems, FormComposerItemsProps } from './items';
 
 /**
  * Props for the FormComposer component.
@@ -23,7 +23,7 @@ interface FormComposerProps extends FormProps {
  * @param props - The props for the FormComposer component
  * @returns The rendered Form component with FormComposerItems
  */
-export const FormComposer: React.FC<FormComposerProps> = React.memo((props) => {
+export const FormComposer: React.FC<FormComposerProps> = (props) => {
   const { items, rowProps, children, ...formProps } = props;
 
   return (
@@ -38,4 +38,4 @@ export const FormComposer: React.FC<FormComposerProps> = React.memo((props) => {
       {children}
     </Form>
   );
-});
+};

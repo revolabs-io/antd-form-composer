@@ -2,7 +2,7 @@ import { Form, FormListFieldData, FormListOperation, RowProps } from 'antd';
 import { NamePath } from 'antd/es/form/interface';
 import React, { Fragment } from 'react';
 
-import { FormComposerItems } from './Items';
+import { FormComposerItems } from './items';
 import type { FormComposerItemType } from './types';
 
 /**
@@ -44,52 +44,50 @@ export interface FormComposerListProps {
  * @param props - The props for the FormComposerList component
  * @returns The rendered dynamic list
  */
-export const FormComposerList: React.FC<FormComposerListProps> = React.memo(
-  (props) => {
-    const {
-      name: fieldName,
-      items,
-      rowProps,
-      listRender,
-      itemRender,
-      root,
-    } = props;
+export const FormComposerList: React.FC<FormComposerListProps> = (props) => {
+  const {
+    name: fieldName,
+    items,
+    rowProps,
+    listRender,
+    itemRender,
+    root,
+  } = props;
 
-    return (
-      <Form.List name={fieldName}>
-        {(fields, operation) => {
-          // Render each field in the list
-          const fieldItems = fields.map((field) => {
-            const itemsContent = (
-              <FormComposerItems
-                root={root}
-                rowProps={rowProps}
-                dynamicListName={fieldName}
-                dynamicListConfig={field}
-                items={items}
-              />
+  return (
+    <Form.List name={fieldName}>
+      {(fields, operation) => {
+        // Render each field in the list
+        const fieldItems = fields.map((field) => {
+          const itemsContent = (
+            <FormComposerItems
+              root={root}
+              rowProps={rowProps}
+              dynamicListName={fieldName}
+              dynamicListConfig={field}
+              items={items}
+            />
+          );
+
+          // Use custom item render if provided, otherwise return content directly
+          if (typeof itemRender === 'function') {
+            return (
+              <Fragment key={field.key}>
+                {itemRender(itemsContent, field, operation)}
+              </Fragment>
             );
-
-            // Use custom item render if provided, otherwise return content directly
-            if (typeof itemRender === 'function') {
-              return (
-                <Fragment key={field.key}>
-                  {itemRender(itemsContent, field, operation)}
-                </Fragment>
-              );
-            }
-
-            return <Fragment key={field.key}>{itemsContent}</Fragment>;
-          });
-
-          // Use custom list render if provided, otherwise return field items
-          if (typeof listRender === 'function') {
-            return listRender(fieldItems, fields, operation);
           }
 
-          return <>{fieldItems}</>;
-        }}
-      </Form.List>
-    );
-  },
-);
+          return <Fragment key={field.key}>{itemsContent}</Fragment>;
+        });
+
+        // Use custom list render if provided, otherwise return field items
+        if (typeof listRender === 'function') {
+          return listRender(fieldItems, fields, operation);
+        }
+
+        return <>{fieldItems}</>;
+      }}
+    </Form.List>
+  );
+};
