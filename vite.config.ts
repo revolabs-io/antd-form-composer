@@ -45,7 +45,15 @@ export default defineConfig(() => {
       },
       rollupOptions: {
         // Mark React as external dependency
-        external: ['react', 'antd'],
+        external: ['react', 'react-dom', 'react/jsx-runtime', 'antd'],
+        output: {
+          globals: {
+            react: 'React',
+            'react-dom': 'ReactDOM',
+            'react/jsx-runtime': 'jsxRuntime',
+            antd: 'antd',
+          },
+        },
       },
     },
   };
