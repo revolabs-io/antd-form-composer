@@ -53,7 +53,9 @@
     "node_modules",
     "build",
     "dist",
-    "coverage"
+    "coverage",
+    "lib/**/__tests__/**",
+    "lib/**/*.{test,spec}.{ts,tsx}"
   ],
   "references": [
     {

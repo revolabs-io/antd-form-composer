@@ -3,7 +3,7 @@
 A powerful and flexible form composition library for React applications, built on top of Ant Design Form. It provides an
 intuitive way to create complex forms with dynamic rendering and configuration.
 
-✅ Fully compatible with Ant Design versions 4 and 5.
+✅ Fully compatible with Ant Design versions **4**, **5**, and **6**.
 
 ## ✨ Features
 - 🔄 Dynamic form fields with flexible configurations
@@ -23,6 +23,15 @@ yarn add antd-form-composer
 # or
 pnpm install antd-form-composer
 ```
+
+### Peer dependencies
+
+| Package | Supported versions | Notes |
+|---------|-------------------|-------|
+| `antd` | `^4.24.0 \|\| ^5.0.0 \|\| ^6.0.0` | Install the Ant Design major your app already uses |
+| `react` | `>=16` | **antd 6 requires React >= 18** |
+
+Styles are not bundled. Import Ant Design CSS/reset according to your antd major (for example `antd/dist/antd.css` on v4, or CSS-in-JS / reset on v5+).
 
 ## 🚀 Quick Start
 

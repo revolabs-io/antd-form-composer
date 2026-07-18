@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { resolve } from 'node:path';
 
 import react from '@vitejs/plugin-react-swc';
@@ -25,6 +26,7 @@ export default defineConfig(() => {
         insertTypesEntry: true,
         outDir: './dist', // Changed this to output to root directory
         include: ['lib'], // Specify the source directory to generate types from
+        exclude: ['lib/**/__tests__/**', 'lib/**/*.{test,spec}.{ts,tsx}'],
       }),
     ],
     build: {
@@ -47,6 +49,11 @@ export default defineConfig(() => {
         // Mark React as external dependency
         external: ['react', 'antd'],
       },
+    },
+    test: {
+      environment: 'jsdom',
+      setupFiles: ['./lib/__tests__/setup.ts'],
+      include: ['lib/**/*.{test,spec}.{ts,tsx}'],
     },
   };
 });
