@@ -9,6 +9,8 @@ import { FormComposerItemsPage } from './pages/examples/FormComposerItemsPage';
 import { ListPage } from './pages/examples/ListPage';
 import { NestedListPage } from './pages/examples/NestedListPage';
 import { RegisteredInputsPage } from './pages/examples/RegisteredInputsPage';
+import { SortableListPage } from './pages/examples/SortableListPage';
+import { ValidatorsPage } from './pages/examples/ValidatorsPage';
 import { HomePage } from './pages/HomePage';
 
 function App() {
@@ -23,7 +25,9 @@ function App() {
           element={<RegisteredInputsPage />}
         />
         <Route path="examples/conditional" element={<ConditionalPage />} />
+        <Route path="examples/validators" element={<ValidatorsPage />} />
         <Route path="examples/list" element={<ListPage />} />
+        <Route path="examples/sortable-list" element={<SortableListPage />} />
         <Route path="examples/nested-list" element={<NestedListPage />} />
         <Route path="examples/custom" element={<CustomPage />} />
         <Route

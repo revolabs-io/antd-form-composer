@@ -1,36 +1,38 @@
 import { Button, Card, Col, List, Row, Space, Tag, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 
+import { EXAMPLES } from '../examples';
+
 const FEATURES = [
   {
-    title: 'Dynamic form fields',
+    title: 'CMS-ready composition',
     description:
-      'Compose forms from a declarative items config with flexible Ant Design Form.Item props.',
+      'Declare article, SEO, and publish forms as item configs instead of hand-wiring every Form.Item.',
   },
   {
-    title: 'Built-in & registered inputs',
+    title: 'Async & complex validators',
     description:
-      'Use text, password, textarea out of the box, or register Select, DatePicker, and more.',
+      'Unique slug checks, reserved paths, password policy, and cross-field campaign windows.',
   },
   {
-    title: 'Form lists',
+    title: 'Sortable lists',
     description:
-      'Build repeatable and nested field groups with custom listRender and itemRender.',
+      'Reorder hero slides or nav items with drag and drop while Form.List stays in sync.',
   },
   {
-    title: 'Conditional rendering',
+    title: 'Conditional content types',
     description:
-      'Hide or adapt fields based on runtime form values using function-based props.',
+      'Show article, landing, or redirect fields based on the selected CMS content type.',
   },
   {
-    title: 'Custom components',
+    title: 'Custom CMS fields',
     description:
-      'Drop in any React component with type custom — no global registration required.',
+      'Slug generators, media pickers, and taxonomy cascaders via type custom.',
   },
   {
-    title: 'Native Form integration',
+    title: 'Multi-section editors',
     description:
-      'Use FormComposerItems inside a standard Ant Design Form for full layout control.',
+      'Mix FormComposerItems with native Ant Design Form for Content / SEO / Publish layouts.',
   },
 ];
 
@@ -42,26 +44,27 @@ export function HomePage() {
           <Typography.Title level={2} style={{ margin: 0 }}>
             antd-form-composer
           </Typography.Title>
-          <Tag color="blue">Ant Design 4 & 5</Tag>
+          <Tag color="blue">CMS demos</Tag>
+          <Tag>Ant Design 4 & 5</Tag>
         </Space>
         <Typography.Paragraph
           type="secondary"
           style={{ marginTop: 12, marginBottom: 0, maxWidth: 720 }}
         >
-          A flexible form composition library for React, built on top of Ant
-          Design Form. Configure complex forms with dynamic rendering, lists,
-          and conditional fields.
+          Interactive examples of composing CMS admin forms — articles, SEO,
+          navigation, validators, sortable hero slides, and custom fields —
+          built with FormComposer on top of Ant Design Form.
         </Typography.Paragraph>
       </div>
 
       <Space>
         <Link to="/examples">
           <Button type="primary" size="large">
-            Browse examples
+            Browse CMS examples
           </Button>
         </Link>
-        <Link to="/examples/basic">
-          <Button size="large">Start with basic form</Button>
+        <Link to="/examples/validators">
+          <Button size="large">Try validators</Button>
         </Link>
       </Space>
 
@@ -84,15 +87,11 @@ export function HomePage() {
         ))}
       </Row>
 
-      <Card title="What you can try" size="small">
+      <Card title="CMS scenarios covered" size="small">
         <List
-          dataSource={[
-            'Submit a basic login-style form with validation',
-            'Register extra Ant Design inputs and use them by type',
-            'Toggle fields with conditional hidden logic',
-            'Add and remove nested list items',
-            'Compose multi-section forms with FormComposerItems',
-          ]}
+          dataSource={EXAMPLES.map(
+            (example) => `${example.title} — ${example.description}`,
+          )}
           renderItem={(item) => <List.Item>{item}</List.Item>}
         />
       </Card>

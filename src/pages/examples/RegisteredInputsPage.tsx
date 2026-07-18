@@ -1,5 +1,5 @@
 import { FormComposer, FormComposerItemType } from '@lib';
-import { Button, Card } from 'antd';
+import { Alert, Button, Card } from 'antd';
 import { useMemo, useState } from 'react';
 
 import { ExamplePage } from '../../components/ExamplePage';
@@ -11,90 +11,105 @@ export function RegisteredInputsPage() {
     () =>
       [
         {
-          type: 'select',
-          col: { xs: 24, md: 12 },
+          type: 'text',
+          col: 24,
           itemProps: {
-            label: 'Role',
-            name: 'role',
-            rules: [{ required: true, message: 'Please select a role' }],
+            label: 'SEO title',
+            name: 'seoTitle',
+            rules: [{ required: true, message: 'SEO title is required' }],
           },
           inputProps: {
-            placeholder: 'Select role',
-            options: [
-              { label: 'Admin', value: 'admin' },
-              { label: 'Editor', value: 'editor' },
-              { label: 'Viewer', value: 'viewer' },
-            ],
+            placeholder: 'Shown in browser tabs and search results',
           },
         },
         {
-          type: 'number',
-          col: { xs: 24, md: 12 },
+          type: 'textarea',
+          col: 24,
           itemProps: {
-            label: 'Age',
-            name: 'age',
+            label: 'Meta description',
+            name: 'metaDescription',
+            rules: [
+              { required: true, message: 'Meta description is required' },
+              {
+                max: 160,
+                message: 'Keep meta descriptions under 160 characters',
+              },
+            ],
           },
           inputProps: {
-            min: 0,
-            style: { width: '100%' },
-            placeholder: 'Enter age',
+            rows: 3,
+            showCount: true,
+            maxLength: 160,
+          },
+        },
+        {
+          type: 'select',
+          col: { xs: 24, md: 12 },
+          itemProps: {
+            label: 'Canonical strategy',
+            name: 'canonical',
+          },
+          inputProps: {
+            options: [
+              { label: 'Self', value: 'self' },
+              { label: 'Parent category', value: 'parent' },
+              { label: 'Custom URL', value: 'custom' },
+            ],
           },
         },
         {
           type: 'date-picker',
           col: { xs: 24, md: 12 },
           itemProps: {
-            label: 'Start date',
-            name: 'startDate',
+            label: 'Publish at',
+            name: 'publishAt',
           },
           inputProps: {
+            showTime: true,
             style: { width: '100%' },
           },
         },
         {
           type: 'switch',
-          col: { xs: 24, md: 12 },
+          col: { xs: 24, md: 8 },
           itemProps: {
-            label: 'Active',
-            name: 'active',
+            label: 'Indexable',
+            name: 'indexable',
             valuePropName: 'checked',
           },
           inputProps: {},
         },
         {
-          type: 'slider',
-          col: { xs: 24, md: 12 },
+          type: 'switch',
+          col: { xs: 24, md: 8 },
           itemProps: {
-            label: 'Priority',
-            name: 'priority',
-          },
-          inputProps: {
-            min: 0,
-            max: 10,
-          },
-        },
-        {
-          type: 'rate',
-          col: { xs: 24, md: 12 },
-          itemProps: {
-            label: 'Rating',
-            name: 'rating',
+            label: 'Featured on homepage',
+            name: 'featured',
+            valuePropName: 'checked',
           },
           inputProps: {},
         },
         {
-          type: 'radio-group',
+          type: 'rate',
+          col: { xs: 24, md: 8 },
+          itemProps: {
+            label: 'Editorial priority',
+            name: 'priority',
+          },
+          inputProps: {},
+        },
+        {
+          type: 'slider',
           col: 24,
           itemProps: {
-            label: 'Plan',
-            name: 'plan',
+            label: 'Sitemap priority',
+            name: 'sitemapPriority',
+            tooltip: 'Used by the CMS sitemap generator (0–1)',
           },
           inputProps: {
-            options: [
-              { label: 'Free', value: 'free' },
-              { label: 'Pro', value: 'pro' },
-              { label: 'Enterprise', value: 'enterprise' },
-            ],
+            min: 0,
+            max: 1,
+            step: 0.1,
           },
         },
       ] as FormComposerItemType[],
@@ -103,20 +118,33 @@ export function RegisteredInputsPage() {
 
   return (
     <ExamplePage
-      title="Registered inputs"
-      description="Components registered via registerInputComponents can be referenced by type (select, number, date-picker, switch, and more)."
+      title="SEO & publish settings"
+      description="CMS SEO panel using components registered via registerInputComponents — select, date-picker, switch, rate, and slider."
       values={values}
     >
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="CMS use case"
+        description="Content managers configure indexing, publish time, and sitemap priority before a page goes live."
+      />
       <Card>
         <FormComposer
           layout="vertical"
           items={items}
           onFinish={setValues}
-          initialValues={{ active: true, priority: 5, plan: 'pro' }}
+          initialValues={{
+            indexable: true,
+            featured: false,
+            canonical: 'self',
+            sitemapPriority: 0.5,
+            priority: 3,
+          }}
           rowProps={{ gutter: [16, 0] }}
         >
           <Button type="primary" htmlType="submit">
-            Submit
+            Save settings
           </Button>
         </FormComposer>
       </Card>

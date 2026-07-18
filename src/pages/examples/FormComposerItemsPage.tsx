@@ -1,5 +1,5 @@
 import { FormComposerItems, FormComposerItemType } from '@lib';
-import { Button, Card, Form, Input, Space } from 'antd';
+import { Alert, Button, Card, Form, Input, Space } from 'antd';
 import { useMemo, useState } from 'react';
 
 import { ExamplePage } from '../../components/ExamplePage';
@@ -8,74 +8,116 @@ export function FormComposerItemsPage() {
   const [form] = Form.useForm();
   const [values, setValues] = useState<unknown>(null);
 
-  const basicItems = useMemo(
+  const contentItems = useMemo(
     () =>
       [
         {
           type: 'text',
-          col: { xs: 24, md: 12 },
+          col: { xs: 24, md: 16 },
           itemProps: {
-            label: 'First name',
-            name: 'firstName',
-            rules: [{ required: true, message: 'Required' }],
+            label: 'Title',
+            name: 'title',
+            rules: [{ required: true, message: 'Title is required' }],
           },
-          inputProps: { placeholder: 'First name' },
+          inputProps: { placeholder: 'Q3 product update' },
         },
-        {
-          type: 'text',
-          col: { xs: 24, md: 12 },
-          itemProps: {
-            label: 'Last name',
-            name: 'lastName',
-            rules: [{ required: true, message: 'Required' }],
-          },
-          inputProps: { placeholder: 'Last name' },
-        },
-      ] as FormComposerItemType[],
-    [],
-  );
-
-  const detailItems = useMemo(
-    () =>
-      [
         {
           type: 'select',
-          col: { xs: 24, md: 12 },
+          col: { xs: 24, md: 8 },
           itemProps: {
-            label: 'Country',
-            name: 'country',
+            label: 'Locale',
+            name: 'locale',
+            rules: [{ required: true, message: 'Locale is required' }],
           },
           inputProps: {
-            placeholder: 'Select country',
             options: [
-              { label: 'United States', value: 'us' },
-              { label: 'Vietnam', value: 'vn' },
-              { label: 'Japan', value: 'jp' },
+              { label: 'English', value: 'en' },
+              { label: 'Vietnamese', value: 'vi' },
+              { label: 'Japanese', value: 'ja' },
             ],
-          },
-        },
-        {
-          type: 'number',
-          col: { xs: 24, md: 12 },
-          itemProps: {
-            label: 'Years of experience',
-            name: 'experience',
-          },
-          inputProps: {
-            min: 0,
-            style: { width: '100%' },
           },
         },
         {
           type: 'textarea',
           col: 24,
           itemProps: {
-            label: 'Notes',
-            name: 'notes',
+            label: 'Body',
+            name: 'body',
+            rules: [{ required: true, message: 'Body is required' }],
           },
           inputProps: {
-            rows: 3,
-            placeholder: 'Additional details',
+            rows: 5,
+            placeholder: 'Main content for this locale…',
+          },
+        },
+      ] as FormComposerItemType[],
+    [],
+  );
+
+  const seoItems = useMemo(
+    () =>
+      [
+        {
+          type: 'text',
+          col: 24,
+          itemProps: {
+            label: 'SEO title',
+            name: ['seo', 'title'],
+          },
+          inputProps: { placeholder: 'Overrides the browser title' },
+        },
+        {
+          type: 'textarea',
+          col: 24,
+          itemProps: {
+            label: 'Meta description',
+            name: ['seo', 'description'],
+            rules: [{ max: 160, message: 'Max 160 characters' }],
+          },
+          inputProps: { rows: 2, showCount: true, maxLength: 160 },
+        },
+        {
+          type: 'switch',
+          col: { xs: 24, md: 12 },
+          itemProps: {
+            label: 'No index',
+            name: ['seo', 'noIndex'],
+            valuePropName: 'checked',
+          },
+          inputProps: {},
+        },
+      ] as FormComposerItemType[],
+    [],
+  );
+
+  const publishItems = useMemo(
+    () =>
+      [
+        {
+          type: 'select',
+          col: { xs: 24, md: 12 },
+          itemProps: {
+            label: 'Visibility',
+            name: ['publish', 'visibility'],
+          },
+          inputProps: {
+            options: [
+              { label: 'Public', value: 'public' },
+              { label: 'Private link', value: 'private' },
+              { label: 'Password gated', value: 'password' },
+            ],
+          },
+        },
+        {
+          type: 'date-picker',
+          col: { xs: 24, md: 12 },
+          itemProps: {
+            label: 'Schedule publish',
+            name: ['publish', 'scheduledAt'],
+          },
+          inputProps: {
+            showTime: true,
+            style: { width: '100%' },
           },
         },
       ] as FormComposerItemType[],
@@ -84,43 +126,60 @@ export function FormComposerItemsPage() {
 
   return (
     <ExamplePage
-      title="FormComposerItems"
-      description="Use FormComposerItems inside a native Ant Design Form to split sections and mix with regular Form.Item components."
+      title="Multi-section editor"
+      description="A full CMS content editor: Content, SEO, and Publish sections via FormComposerItems inside a native Ant Design Form, plus a regular Form.Item for notes."
       values={values}
     >
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="CMS use case"
+        description="Editors work through clearly separated sections in one save action — composition where it helps, native Form.Item where you need full control."
+      />
       <Form
         form={form}
         layout="vertical"
         onFinish={setValues}
-        initialValues={{ country: 'us' }}
+        initialValues={{
+          locale: 'en',
+          publish: { visibility: 'public' },
+          seo: { noIndex: false },
+        }}
       >
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-          <Card title="Basic information" size="small">
+          <Card title="Content" size="small">
             <FormComposerItems
-              items={basicItems}
+              items={contentItems}
               rowProps={{ gutter: [16, 0] }}
             />
           </Card>
 
-          <Card title="Additional details" size="small">
+          <Card title="SEO" size="small">
             <FormComposerItems
-              items={detailItems}
+              items={seoItems}
               rowProps={{ gutter: [16, 0] }}
             />
           </Card>
 
-          <Card title="Native Form.Item" size="small">
-            <Form.Item
-              label="Reference code"
-              name="referenceCode"
-              rules={[{ required: true, message: 'Required' }]}
-            >
-              <Input placeholder="Mix native Form.Item with composer items" />
+          <Card title="Publish" size="small">
+            <FormComposerItems
+              items={publishItems}
+              rowProps={{ gutter: [16, 0] }}
+            />
+          </Card>
+
+          <Card title="Internal notes" size="small">
+            <Form.Item label="Editor notes" name="editorNotes">
+              <Input.TextArea
+                rows={3}
+                placeholder="Visible only in the CMS admin"
+              />
             </Form.Item>
           </Card>
 
           <Button type="primary" htmlType="submit">
-            Submit
+            Save content
           </Button>
         </Space>
       </Form>

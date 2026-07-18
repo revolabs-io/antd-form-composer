@@ -9,50 +9,64 @@ export const EXAMPLES: ExampleMeta[] = [
   {
     key: 'basic',
     path: '/examples/basic',
-    title: 'Basic form',
+    title: 'Create article',
     description:
-      'Build a simple form with text/password fields, validation rules, and responsive grid columns.',
+      'CMS article create form — title, excerpt, and body with required rules and responsive columns.',
   },
   {
     key: 'registered-inputs',
     path: '/examples/registered-inputs',
-    title: 'Registered inputs',
+    title: 'SEO & publish settings',
     description:
-      'Register Ant Design inputs once with registerInputComponents, then use them by type string.',
+      'Configure SEO metadata and publish options using registered Ant Design inputs (select, date, switch, rate).',
   },
   {
     key: 'conditional',
     path: '/examples/conditional',
-    title: 'Conditional rendering',
+    title: 'Content type fields',
     description:
-      'Hide or change fields at runtime using hidden / itemProps / inputProps as functions of form values.',
+      'Switch between Article and Landing page content types to show or hide CMS-specific fields.',
+  },
+  {
+    key: 'validators',
+    path: '/examples/validators',
+    title: 'Validators',
+    description:
+      'Async unique-slug checks, reserved paths, complex password rules, and cross-field publish window validation.',
   },
   {
     key: 'list',
     path: '/examples/list',
-    title: 'Form list',
+    title: 'FAQ blocks',
     description:
-      'Repeatable field groups with type list, listRender, and itemRender for add/remove UX.',
+      'Manage repeatable FAQ items on a CMS page with add/remove list rendering.',
+  },
+  {
+    key: 'sortable-list',
+    path: '/examples/sortable-list',
+    title: 'Sortable hero slides',
+    description:
+      'Drag and drop to reorder homepage hero slides while keeping Form.List values in sync.',
   },
   {
     key: 'nested-list',
     path: '/examples/nested-list',
-    title: 'Nested form list',
+    title: 'Navigation menu',
     description:
-      'Nest list items inside other lists for hierarchical data such as departments and employees.',
+      'Build nested CMS navigation — top-level menus with child links.',
   },
   {
     key: 'custom',
     path: '/examples/custom',
-    title: 'Custom components',
+    title: 'Custom CMS fields',
     description:
-      'Use type custom with any React component without registering it globally.',
+      'Custom slug generator, media picker, and category cascader wired through type custom.',
   },
   {
     key: 'form-composer-items',
     path: '/examples/form-composer-items',
-    title: 'FormComposerItems',
+    title: 'Multi-section editor',
     description:
-      'Mix FormComposerItems with a native Ant Design Form for multi-section layouts.',
+      'Full CMS content editor with FormComposerItems sections mixed into a native Ant Design Form.',
   },
 ];

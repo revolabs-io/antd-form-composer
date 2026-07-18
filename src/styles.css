@@ -36,3 +36,7 @@ body,
   word-break: break-word;
   font-size: 13px;
 }
+
+.ant-radio-wrapper {
+  white-space: normal;
+}

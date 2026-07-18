@@ -1,5 +1,5 @@
 import { AnyObject, FormComposer, FormComposerItemType } from '@lib';
-import { Button, Card, FormInstance } from 'antd';
+import { Alert, Button, Card, FormInstance } from 'antd';
 import { useMemo, useState } from 'react';
 
 import { ExamplePage } from '../../components/ExamplePage';
@@ -14,74 +14,118 @@ export function ConditionalPage() {
           type: 'select',
           col: { xs: 24, md: 12 },
           itemProps: {
-            label: 'Account type',
-            name: 'accountType',
-            rules: [
-              { required: true, message: 'Please select an account type' },
-            ],
+            label: 'Content type',
+            name: 'contentType',
+            rules: [{ required: true, message: 'Select a content type' }],
           },
           inputProps: {
-            placeholder: 'Select account type',
             options: [
-              { label: 'Personal', value: 'personal' },
-              { label: 'Business', value: 'business' },
+              { label: 'Article', value: 'article' },
+              { label: 'Landing page', value: 'landing' },
+              { label: 'Redirect', value: 'redirect' },
             ],
           },
         },
         {
           type: 'text',
           col: { xs: 24, md: 12 },
-          hidden: (_form: FormInstance, formValues: AnyObject) =>
-            formValues?.accountType !== 'business',
           itemProps: {
-            label: 'Company name',
-            name: 'companyName',
-            rules: [{ required: true, message: 'Please enter a company name' }],
+            label: 'Internal name',
+            name: 'internalName',
+            rules: [{ required: true, message: 'Internal name is required' }],
           },
           inputProps: {
-            placeholder: 'Enter company name',
+            placeholder: 'Used only in the CMS admin',
           },
-        },
-        {
-          type: 'switch',
-          col: { xs: 24, md: 12 },
-          itemProps: {
-            label: 'Need shipping address',
-            name: 'needShipping',
-            valuePropName: 'checked',
-          },
-          inputProps: {},
         },
         {
           type: 'textarea',
           col: 24,
           hidden: (_form: FormInstance, formValues: AnyObject) =>
-            !formValues?.needShipping,
+            formValues?.contentType !== 'article',
           itemProps: {
-            label: 'Shipping address',
-            name: 'shippingAddress',
-            rules: [
-              { required: true, message: 'Please enter a shipping address' },
-            ],
+            label: 'Article body',
+            name: 'body',
+            rules: [{ required: true, message: 'Article body is required' }],
           },
           inputProps: {
-            rows: 3,
-            placeholder: 'Enter shipping address',
+            rows: 5,
+            placeholder: 'Long-form article content',
+          },
+        },
+        {
+          type: 'text',
+          col: { xs: 24, md: 12 },
+          hidden: (_form: FormInstance, formValues: AnyObject) =>
+            formValues?.contentType !== 'landing',
+          itemProps: {
+            label: 'Hero headline',
+            name: 'heroHeadline',
+            rules: [{ required: true, message: 'Hero headline is required' }],
+          },
+          inputProps: {
+            placeholder: 'Ship content faster',
+          },
+        },
+        {
+          type: 'text',
+          col: { xs: 24, md: 12 },
+          hidden: (_form: FormInstance, formValues: AnyObject) =>
+            formValues?.contentType !== 'landing',
+          itemProps: {
+            label: 'Primary CTA label',
+            name: 'ctaLabel',
+            rules: [{ required: true, message: 'CTA label is required' }],
+          },
+          inputProps: {
+            placeholder: 'Start free trial',
           },
         },
         {
           type: 'text',
           col: 24,
+          hidden: (_form: FormInstance, formValues: AnyObject) =>
+            formValues?.contentType !== 'redirect',
+          itemProps: {
+            label: 'Redirect target URL',
+            name: 'redirectUrl',
+            rules: [
+              { required: true, message: 'Redirect URL is required' },
+              { type: 'url', message: 'Enter a valid URL' },
+            ],
+          },
+          inputProps: {
+            placeholder: 'https://example.com/new-path',
+          },
+        },
+        {
+          type: 'switch',
+          col: { xs: 24, md: 12 },
+          hidden: (_form: FormInstance, formValues: AnyObject) =>
+            formValues?.contentType === 'redirect',
+          itemProps: {
+            label: 'Show in main navigation',
+            name: 'showInNav',
+            valuePropName: 'checked',
+          },
+          inputProps: {},
+        },
+        {
+          type: 'text',
+          col: { xs: 24, md: 12 },
+          hidden: (_form: FormInstance, formValues: AnyObject) =>
+            formValues?.contentType === 'redirect' || !formValues?.showInNav,
           itemProps: (_form: FormInstance, formValues: AnyObject) => ({
-            label:
-              formValues?.accountType === 'business'
-                ? 'Billing contact'
-                : 'Full name',
-            name: 'contactName',
-            rules: [{ required: true, message: 'Please enter a contact name' }],
+            label: 'Nav label',
+            name: 'navLabel',
+            rules: [{ required: true, message: 'Nav label is required' }],
+            extra:
+              formValues?.contentType === 'landing'
+                ? 'Landing pages often use shorter nav labels than the H1.'
+                : undefined,
           }),
           inputProps: {
-            placeholder: 'Enter name',
+            placeholder: 'Label in the site header',
           },
         },
       ] as FormComposerItemType[],
@@ -90,20 +134,27 @@ export function ConditionalPage() {
 
   return (
     <ExamplePage
-      title="Conditional rendering"
-      description="Switch account type to business or enable shipping to reveal extra fields. Labels can also adapt from form values."
+      title="Content type fields"
+      description="Conditional CMS fields: Article, Landing page, and Redirect each reveal a different field set. Nav settings appear only when relevant."
       values={values}
     >
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="CMS use case"
+        description="A single “create content” form adapts to the selected content type so editors only see fields they need."
+      />
       <Card>
         <FormComposer
           layout="vertical"
           items={items}
           onFinish={setValues}
-          initialValues={{ accountType: 'personal', needShipping: false }}
+          initialValues={{ contentType: 'article', showInNav: false }}
           rowProps={{ gutter: [16, 0] }}
         >
           <Button type="primary" htmlType="submit">
-            Submit
+            Save content
           </Button>
         </FormComposer>
       </Card>

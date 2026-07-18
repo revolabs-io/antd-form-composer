@@ -7,11 +7,12 @@ export function ExamplesIndexPage() {
   return (
     <div>
       <Typography.Title level={3} style={{ marginTop: 0 }}>
-        Examples
+        CMS examples
       </Typography.Title>
       <Typography.Paragraph type="secondary">
-        Interactive demos for the main features of antd-form-composer. Open any
-        example from the sidebar or the cards below.
+        Real admin-form scenarios for building a content management system with
+        antd-form-composer. Open any example from the sidebar or the cards
+        below.
       </Typography.Paragraph>
 
       <Row gutter={[16, 16]}>

@@ -108,7 +108,7 @@ export function AppLayout() {
           }}
         >
           <Typography.Title level={4} style={{ margin: 0 }}>
-            Form Composer Demo
+            CMS Form Composer Demo
           </Typography.Title>
         </Header>
         <Content className="app-content">

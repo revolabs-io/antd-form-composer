@@ -1,5 +1,5 @@
 import { FormComposer, FormComposerItemType } from '@lib';
-import { Button, Card, Space } from 'antd';
+import { Alert, Button, Card, Space } from 'antd';
 import { useMemo, useState } from 'react';
 
 import { ExamplePage } from '../../components/ExamplePage';
@@ -11,11 +11,23 @@ export function ListPage() {
     () =>
       [
         {
+          type: 'text',
+          col: 24,
+          itemProps: {
+            label: 'Page title',
+            name: 'pageTitle',
+            rules: [{ required: true, message: 'Page title is required' }],
+          },
+          inputProps: {
+            placeholder: 'Pricing FAQ',
+          },
+        },
+        {
           type: 'list',
           col: 24,
           itemProps: {
-            label: 'Users',
-            name: 'users',
+            label: 'FAQ items',
+            name: 'faqs',
             required: true,
           },
           inputProps: {
@@ -27,14 +39,14 @@ export function ListPage() {
               >
                 {content}
                 <Button type="dashed" onClick={() => add()} block>
-                  + Add user
+                  + Add FAQ item
                 </Button>
               </Space>
             ),
             itemRender: (content, field, { remove }) => (
               <Card
                 size="small"
-                title={`User ${field.name + 1}`}
+                title={`FAQ #${field.name + 1}`}
                 key={field.key}
                 extra={
                   <Button type="link" danger onClick={() => remove(field.name)}>
@@ -48,38 +60,52 @@ export function ListPage() {
             items: [
               {
                 type: 'text',
-                col: { xs: 24, md: 12 },
+                col: 24,
                 itemProps: {
-                  label: 'First name',
-                  name: 'firstName',
-                  rules: [{ required: true, message: 'Required' }],
+                  label: 'Question',
+                  name: 'question',
+                  rules: [{ required: true, message: 'Question is required' }],
                 },
-                inputProps: { placeholder: 'First name' },
+                inputProps: { placeholder: 'Can I change plans later?' },
               },
               {
-                type: 'text',
-                col: { xs: 24, md: 12 },
+                type: 'textarea',
+                col: 24,
                 itemProps: {
-                  label: 'Last name',
-                  name: 'lastName',
-                  rules: [{ required: true, message: 'Required' }],
+                  label: 'Answer',
+                  name: 'answer',
+                  rules: [{ required: true, message: 'Answer is required' }],
                 },
-                inputProps: { placeholder: 'Last name' },
+                inputProps: {
+                  rows: 3,
+                  placeholder:
+                    'Yes — upgrade or downgrade anytime from billing.',
+                },
               },
               {
                 type: 'select',
-                col: 24,
+                col: { xs: 24, md: 12 },
                 itemProps: {
-                  label: 'Role',
-                  name: 'role',
+                  label: 'Audience',
+                  name: 'audience',
                 },
                 inputProps: {
-                  placeholder: 'Select role',
                   options: [
-                    { label: 'Admin', value: 'admin' },
-                    { label: 'Member', value: 'member' },
+                    { label: 'All visitors', value: 'all' },
+                    { label: 'Logged-in users', value: 'users' },
+                    { label: 'Enterprise only', value: 'enterprise' },
                   ],
                 },
+              },
+              {
+                type: 'switch',
+                col: { xs: 24, md: 12 },
+                itemProps: {
+                  label: 'Highlight on page',
+                  name: 'highlighted',
+                  valuePropName: 'checked',
+                },
+                inputProps: {},
               },
             ],
           },
@@ -90,22 +116,37 @@ export function ListPage() {
 
   return (
     <ExamplePage
-      title="Form list"
-      description="Use type list with listRender and itemRender to add and remove repeatable field groups."
+      title="FAQ blocks"
+      description="Repeatable CMS FAQ blocks on a marketing page — add, edit, and remove questions with type list."
       values={values}
     >
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="CMS use case"
+        description="Editors maintain an FAQ section for a pricing page without developer help."
+      />
       <Card>
         <FormComposer
           layout="vertical"
           items={items}
           onFinish={setValues}
           initialValues={{
-            users: [{ firstName: '', lastName: '', role: 'member' }],
+            pageTitle: 'Pricing FAQ',
+            faqs: [
+              {
+                question: 'Do you offer annual billing?',
+                answer: 'Yes, with two months free.',
+                audience: 'all',
+                highlighted: true,
+              },
+            ],
           }}
           rowProps={{ gutter: [16, 0] }}
         >
           <Button type="primary" htmlType="submit" style={{ marginTop: 16 }}>
-            Submit
+            Save FAQ section
           </Button>
         </FormComposer>
       </Card>

@@ -1,106 +1,108 @@
 import { FormComposer, FormComposerItemType } from '@lib';
-import { Button, Card, Cascader, Input } from 'antd';
+import { Alert, Button, Card, Cascader, Form } from 'antd';
 import { useMemo, useState } from 'react';
 
+import { CATEGORY_TREE } from '../../cms/mockApi';
+import { MediaPicker } from '../../components/cms/MediaPicker';
+import { SlugInput } from '../../components/cms/SlugInput';
 import { ExamplePage } from '../../components/ExamplePage';
 
-type ColorInputProps = {
-  value?: string;
-  onChange?: (value: string) => void;
-};
-
-function ColorInput({ value, onChange }: ColorInputProps) {
-  return (
-    <Input
-      type="color"
-      value={value || '#1677ff'}
-      onChange={(event) => onChange?.(event.target.value)}
-      style={{ width: 80, padding: 4 }}
-    />
-  );
-}
-
-const cascaderOptions = [
-  {
-    value: 'asia',
-    label: 'Asia',
-    children: [
-      { value: 'vietnam', label: 'Vietnam' },
-      { value: 'japan', label: 'Japan' },
-    ],
-  },
-  {
-    value: 'europe',
-    label: 'Europe',
-    children: [
-      { value: 'france', label: 'France' },
-      { value: 'germany', label: 'Germany' },
-    ],
-  },
-];
-
 export function CustomPage() {
+  const [form] = Form.useForm();
   const [values, setValues] = useState<unknown>(null);
+  const title = Form.useWatch('title', form);
 
   const items = useMemo(
     () =>
       [
         {
+          type: 'text',
+          col: 24,
+          itemProps: {
+            label: 'Page title',
+            name: 'title',
+            rules: [{ required: true, message: 'Page title is required' }],
+          },
+          inputProps: {
+            placeholder: 'Customer stories',
+          },
+        },
+        {
+          type: 'custom',
+          col: 24,
+          component: SlugInput,
+          itemProps: {
+            label: 'URL slug',
+            name: 'slug',
+            rules: [
+              { required: true, message: 'Slug is required' },
+              {
+                pattern: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+                message: 'Use lowercase letters, numbers, and hyphens',
+              },
+            ],
+            extra: 'Custom SlugInput can generate a slug from the title.',
+          },
+          inputProps: {
+            sourceTitle: title,
+          },
+        },
+        {
           type: 'custom',
           col: { xs: 24, md: 12 },
           component: Cascader,
           itemProps: {
-            label: 'Region',
-            name: 'region',
-            rules: [{ required: true, message: 'Please select a region' }],
+            label: 'Category',
+            name: 'category',
+            rules: [{ required: true, message: 'Select a category' }],
           },
           inputProps: {
-            options: cascaderOptions,
-            placeholder: 'Select region',
+            options: CATEGORY_TREE,
+            placeholder: 'Select category path',
             style: { width: '100%' },
+            changeOnSelect: false,
           },
         },
         {
           type: 'custom',
-          col: { xs: 24, md: 12 },
-          component: ColorInput,
+          col: 24,
+          component: MediaPicker,
           itemProps: {
-            label: 'Brand color',
-            name: 'brandColor',
+            label: 'Cover image',
+            name: 'coverImageId',
+            rules: [{ required: true, message: 'Pick a cover image' }],
+            extra: 'MediaPicker is a custom CMS field over the media library.',
           },
           inputProps: {},
         },
-        {
-          type: 'text',
-          col: 24,
-          itemProps: {
-            label: 'Label',
-            name: 'label',
-          },
-          inputProps: {
-            placeholder: 'Optional label',
-          },
-        },
       ] as FormComposerItemType[],
-    [],
+    [title],
   );
 
   return (
     <ExamplePage
-      title="Custom components"
-      description="Pass any React component with type custom — including Ant Design Cascader or your own inputs — without global registration."
+      title="Custom CMS fields"
+      description="CMS-specific inputs via type custom: slug generator, category cascader, and media library picker — no global registration required."
       values={values}
     >
+      <Alert
+        type="info"
+        showIcon
+        style={{ marginBottom: 16 }}
+        message="CMS use case"
+        description="When creating a resource page, editors generate a slug, pick a taxonomy path, and choose a cover from the media library."
+      />
       <Card>
         <FormComposer
+          form={form}
           layout="vertical"
           items={items}
           onFinish={setValues}
-          initialValues={{ brandColor: '#1677ff' }}
+          initialValues={{ title: 'Customer stories' }}
           rowProps={{ gutter: [16, 0] }}
         >
           <Button type="primary" htmlType="submit">
-            Submit
+            Save page
           </Button>
         </FormComposer>
       </Card>
