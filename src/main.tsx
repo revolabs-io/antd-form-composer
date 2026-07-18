@@ -1,10 +1,20 @@
+import './register';
+import './styles.css';
+
+import { ConfigProvider } from 'antd';
+import enUS from 'antd/locale/en_US';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ConfigProvider locale={enUS}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ConfigProvider>
   </StrictMode>,
 );
