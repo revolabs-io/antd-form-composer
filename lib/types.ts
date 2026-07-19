@@ -7,6 +7,7 @@ import type {
   FormInstance,
   FormItemProps,
   InputNumberProps,
+  InputProps,
   RadioGroupProps,
   RadioProps,
   RateProps,
@@ -16,47 +17,36 @@ import type {
   TransferProps,
   TreeSelectProps,
 } from 'antd';
-import type { CheckboxGroupProps } from 'antd/es/checkbox';
-import type { RangePickerProps } from 'antd/es/date-picker';
-import type {
-  InputProps,
-  PasswordProps,
-  SearchProps,
-  TextAreaProps,
-} from 'antd/es/input';
-import type { MentionProps } from 'antd/es/mentions';
-import type { SliderRangeProps, SliderSingleProps } from 'antd/es/slider';
+import type { ComponentProps } from 'react';
 import React from 'react';
 
-import { FormComposerListProps } from './list';
+import { FormComposerListProps } from './List';
 
-/**
- * Type for column span configuration.
- * Can be a number/string for span, or full ColProps object.
- */
+/** Compatible with antd NamePath across v4/v5/v6 without deep imports. */
+export type NamePath = string | number | Array<string | number>;
+
 export type ColSpanType = number | string | ColProps;
 
-/**
- * Generic object type for any key-value pairs.
- */
-export type AnyObject = Record<string, any>; // eslint-disable-line
+export type AnyObject = Record<string, any>; //eslint-disable-line
 
-/**
- * Base interface for all form item configurations.
- * Defines common properties that can be static or dynamic functions.
- */
+/** Fallback structural types when public antd exports differ across majors. */
+type PasswordProps = ComponentProps<'input'> & AnyObject;
+type SearchProps = InputProps & AnyObject;
+type TextAreaProps = ComponentProps<'textarea'> & AnyObject;
+type CheckboxGroupProps = AnyObject;
+type RangePickerProps = AnyObject;
+type MentionProps = AnyObject;
+type SliderSingleProps = AnyObject;
+type SliderRangeProps = AnyObject;
+
 interface FormItemBase {
-  /** Column configuration for layout */
   col: ((form: FormInstance, values: AnyObject) => ColSpanType) | ColSpanType;
-  /** Form item properties */
   itemProps:
     | ((form: FormInstance, values: AnyObject) => FormItemProps)
     | FormItemProps;
-  /** Whether the item is hidden */
   hidden?: ((form: FormInstance, values: AnyObject) => boolean) | boolean;
 }
 
-/** Form item configuration for AutoComplete input */
 interface FormItemAutoComplete extends FormItemBase {
   type: 'autocomplete';
   inputProps:
@@ -64,7 +54,6 @@ interface FormItemAutoComplete extends FormItemBase {
     | AutoCompleteProps;
 }
 
-/** Form item configuration for Cascader input */
 interface FormItemCascader extends FormItemBase {
   type: 'cascader';
   inputProps:
@@ -72,7 +61,6 @@ interface FormItemCascader extends FormItemBase {
     | CascaderProps;
 }
 
-/** Form item configuration for Checkbox input */
 interface FormItemCheckbox extends FormItemBase {
   type: 'checkbox';
   inputProps:
@@ -80,7 +68,6 @@ interface FormItemCheckbox extends FormItemBase {
     | CheckboxProps;
 }
 
-/** Form item configuration for Checkbox Group input */
 interface FormItemCheckboxGroup extends FormItemBase {
   type: 'checkbox-group';
   inputProps:
@@ -210,16 +197,14 @@ interface FormItemTreeSelect extends FormItemBase {
     | TreeSelectProps;
 }
 
-/** Form item configuration for custom component */
 interface FormItemCustom extends FormItemBase {
   type: 'custom';
-  component?: React.ComponentType<any>; // eslint-disable-line
+  component?: React.ComponentType<any>; //eslint-disable-line
   inputProps:
     | ((form: FormInstance, values: AnyObject) => AnyObject)
     | AnyObject;
 }
 
-/** Form item configuration for hidden field */
 interface FormItemHidden extends FormItemBase {
   type: 'hidden';
   inputProps:
@@ -227,7 +212,6 @@ interface FormItemHidden extends FormItemBase {
     | AnyObject;
 }
 
-/** Form item configuration for dynamic list */
 interface FormListItem extends FormItemBase {
   type: 'list';
   inputProps:
@@ -235,19 +219,14 @@ interface FormListItem extends FormItemBase {
     | FormComposerListProps;
 }
 
-/** Form item configuration for dynamically registered components */
 interface FormItemDynamic extends FormItemBase {
   type: string;
-  component?: React.ComponentType<any>; // eslint-disable-line
+  component?: React.ComponentType<any>; //eslint-disable-line
   inputProps:
     | ((form: FormInstance, values: AnyObject) => AnyObject)
     | AnyObject;
 }
 
-/**
- * Union type for all possible form item configurations.
- * Each variant corresponds to a different input type supported by the form composer.
- */
 export type FormComposerItemType =
   | FormItemAutoComplete
   | FormItemCascader

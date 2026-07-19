@@ -1,30 +1,32 @@
+/// <reference types="vitest/config" />
 import { resolve } from 'node:path';
 
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import dts from 'vite-plugin-dts';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(() => {
   return {
+    resolve: {
+      tsconfigPaths: true,
+    },
     plugins: [
-      // Add TypeScript type checking
+      // Library build: type-check lib only (demo uses antd 5+ APIs).
       checker({
-        typescript: true,
+        typescript: {
+          tsconfigPath: 'tsconfig.lib.json',
+        },
       }),
 
-      // Add React SWC transform plugin
       react(),
-
-      // Enable TypeScript path aliases
-      tsconfigPaths(),
 
       // Generate TypeScript declaration files
       dts({
         insertTypesEntry: true,
         outDir: './dist', // Changed this to output to root directory
         include: ['lib'], // Specify the source directory to generate types from
+        exclude: ['lib/**/__tests__/**', 'lib/**/*.{test,spec}.{ts,tsx}'],
       }),
     ],
     build: {
@@ -55,6 +57,11 @@ export default defineConfig(() => {
           },
         },
       },
+    },
+    test: {
+      environment: 'jsdom',
+      setupFiles: ['./lib/__tests__/setup.ts'],
+      include: ['lib/**/*.{test,spec}.{ts,tsx}'],
     },
   };
 });

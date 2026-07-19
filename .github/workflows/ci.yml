@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [development, main]
+  pull_request:
+
+jobs:
+  matrix:
+    name: antd@${{ matrix.antd }} / react@${{ matrix.react }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # antd 4: React 16–18 (antd 4 does not target React 19)
+          - antd: 4
+            react: 16
+          - antd: 4
+            react: 17
+          - antd: 4
+            react: 18
+          # antd 5: React 16–19
+          - antd: 5
+            react: 16
+          - antd: 5
+            react: 17
+          - antd: 5
+            react: 18
+          - antd: 5
+            react: 19
+          # antd 6: React ≥ 18 only
+          - antd: 6
+            react: 18
+          - antd: 6
+            react: 19
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install matrix versions
+        run: |
+          pnpm add -D antd@${{ matrix.antd }} react@${{ matrix.react }} react-dom@${{ matrix.react }} @types/react@${{ matrix.react }} @types/react-dom@${{ matrix.react }}
+          # RTL 13+ requires React 18+ (react-dom/client). Use RTL 12 for React 16/17.
+          if [ "${{ matrix.react }}" -lt 18 ]; then
+            pnpm add -D @testing-library/react@12
+          fi
+
+      - name: Lint
+        run: pnpm run lint
+
+      # Library must type-check against every antd/react pair in the peer range.
+      - name: Type check library
+        run: pnpm run type-check:lib
+
+      # Demo app targets antd 5+ APIs and React 18+ (createRoot, App, Flex, …).
+      - name: Type check demo
+        if: matrix.antd != 4 && matrix.react >= 18
+        run: pnpm run type-check
+
+      - name: Test
+        run: pnpm run test
+
+      - name: Build
+        run: pnpm run build
