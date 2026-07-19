@@ -60,7 +60,7 @@ export const FormComposerList: React.FC<FormComposerListProps> = (props) => {
           return listRender(fieldItems, fields, operation);
         }
 
-        return fieldItems;
+        return <>{fieldItems}</>;
       }}
     </Form.List>
   );

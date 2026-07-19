@@ -33,8 +33,9 @@ export const FormComposerItems: React.FC<FormComposerItemsProps> = ({
     );
   });
 
+  // Fragment required: React 16/17 FC cannot return Element[].
   if (layout === 'inline') {
-    return content;
+    return <>{content}</>;
   }
 
   return <Row {...(rowProps || { gutter: 16 })}>{content}</Row>;
