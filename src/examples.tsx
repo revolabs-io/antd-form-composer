@@ -3,6 +3,7 @@ import {
   AppstoreAddOutlined,
   BlockOutlined,
   BranchesOutlined,
+  ColumnWidthOutlined,
   DragOutlined,
   FormOutlined,
   LayoutOutlined,
@@ -33,13 +34,23 @@ export const EXAMPLES: ExampleMeta[] = [
     icon: <FormOutlined />,
   },
   {
+    key: 'responsive-layout',
+    path: '/examples/responsive-layout',
+    title: 'Responsive Layout',
+    description:
+      'Grid columns via Ant Design Row/Col with static or dynamic col props.',
+    whenToUse:
+      'Use when fields should share a row on large screens and stack on mobile, or when column width should change from form values (for example a density toggle). Set col to a number, a ColProps breakpoint object, or a function returning either — same 24-column Grid as Ant Design Row/Col.',
+    icon: <ColumnWidthOutlined />,
+  },
+  {
     key: 'registered-inputs',
     path: '/examples/registered-inputs',
     title: 'Component Registration',
     description:
-      'Register Ant Design inputs once at app entry with registerInputComponents, then reference them by type.',
+      'Register Ant Design inputs once at app entry with registerInputComponents, then reference them by type (e.g. checkbox vs checkbox-group).',
     whenToUse:
-      'Use when you need Ant Design inputs beyond the built-in text, password, textarea, list, and hidden types. Call registerInputComponents once (e.g. in src/register.ts from main.tsx), then reference them by type string for a smaller default bundle and full control over which components ship.',
+      'Use when you need Ant Design inputs beyond the built-in text, password, textarea, list, and hidden types. Call registerInputComponents once (e.g. in src/register.ts from main.tsx), then reference them by type string — including distinct types like checkbox / checkbox-group and radio / radio-group — for a smaller default bundle and full control over which components ship.',
     icon: <AppstoreAddOutlined />,
   },
   {
@@ -114,7 +125,14 @@ export const EXAMPLES: ExampleMeta[] = [
   },
 ];
 
-export const HOME_FEATURES = [
+export type HomeFeature = {
+  title: string;
+  description: string;
+  icon: ReactNode;
+  path?: string;
+};
+
+export const HOME_FEATURES: HomeFeature[] = [
   {
     title: 'Dynamic form fields',
     description:
@@ -149,7 +167,8 @@ export const HOME_FEATURES = [
     title: 'Responsive layout',
     description:
       'Grid columns via Ant Design Row/Col with static or dynamic col props.',
-    icon: <LayoutOutlined />,
+    icon: <ColumnWidthOutlined />,
+    path: '/examples/responsive-layout',
   },
   {
     title: 'TypeScript support',

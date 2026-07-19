@@ -3,9 +3,9 @@ import { Button } from 'antd';
 import type { RuleObject } from 'antd/es/form';
 import { useMemo, useState } from 'react';
 
-import { checkSlugAvailable } from '../../cms/mockApi';
 import { ExamplePage } from '../../components/ExamplePage';
 import { EXAMPLES } from '../../examples';
+import { checkSlugAvailable } from '../../mockApi';
 import { VALIDATORS_CODE } from './code-snippets';
 
 const meta = EXAMPLES.find((item) => item.key === 'validators')!;
@@ -198,6 +198,7 @@ export function ValidatorsPage() {
   return (
     <ExamplePage
       title={meta.title}
+      description={meta.description}
       whenToUse={meta.whenToUse}
       icon={meta.icon}
       code={VALIDATORS_CODE}

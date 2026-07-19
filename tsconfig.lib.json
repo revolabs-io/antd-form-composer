@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["lib"],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "coverage",
+    "lib/**/__tests__/**",
+    "lib/**/*.{test,spec}.{ts,tsx}"
+  ]
+}

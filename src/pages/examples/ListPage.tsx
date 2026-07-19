@@ -132,6 +132,7 @@ export function ListPage() {
   return (
     <ExamplePage
       title={meta.title}
+      description={meta.description}
       whenToUse={meta.whenToUse}
       icon={meta.icon}
       code={LIST_CODE}

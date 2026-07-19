@@ -7,6 +7,7 @@ import type {
   FormInstance,
   FormItemProps,
   InputNumberProps,
+  InputProps,
   RadioGroupProps,
   RadioProps,
   RateProps,
@@ -16,23 +17,27 @@ import type {
   TransferProps,
   TreeSelectProps,
 } from 'antd';
-import type { CheckboxGroupProps } from 'antd/es/checkbox';
-import type { RangePickerProps } from 'antd/es/date-picker';
-import type {
-  InputProps,
-  PasswordProps,
-  SearchProps,
-  TextAreaProps,
-} from 'antd/es/input';
-import type { MentionProps } from 'antd/es/mentions';
-import type { SliderRangeProps, SliderSingleProps } from 'antd/es/slider';
+import type { ComponentProps } from 'react';
 import React from 'react';
 
 import { FormComposerListProps } from './List';
 
+/** Compatible with antd NamePath across v4/v5/v6 without deep imports. */
+export type NamePath = string | number | Array<string | number>;
+
 export type ColSpanType = number | string | ColProps;
 
 export type AnyObject = Record<string, any>; //eslint-disable-line
+
+/** Fallback structural types when public antd exports differ across majors. */
+type PasswordProps = ComponentProps<'input'> & AnyObject;
+type SearchProps = InputProps & AnyObject;
+type TextAreaProps = ComponentProps<'textarea'> & AnyObject;
+type CheckboxGroupProps = AnyObject;
+type RangePickerProps = AnyObject;
+type MentionProps = AnyObject;
+type SliderSingleProps = AnyObject;
+type SliderRangeProps = AnyObject;
 
 interface FormItemBase {
   col: ((form: FormInstance, values: AnyObject) => ColSpanType) | ColSpanType;
@@ -64,7 +69,7 @@ interface FormItemCheckbox extends FormItemBase {
 }
 
 interface FormItemCheckboxGroup extends FormItemBase {
-  type: 'checkbox';
+  type: 'checkbox-group';
   inputProps:
     | ((form: FormInstance, values: AnyObject) => CheckboxGroupProps)
     | CheckboxGroupProps;

@@ -11,10 +11,9 @@
     ],
     "module": "ESNext",
     "skipLibCheck": true,
-    "baseUrl": "./",
     "paths": {
       "@lib": [
-        "lib/index.ts"
+        "./lib/index.ts"
       ]
     },
         /* Bundler mode */
@@ -53,7 +52,9 @@
     "node_modules",
     "build",
     "dist",
-    "coverage"
+    "coverage",
+    "lib/**/__tests__/**",
+    "lib/**/*.{test,spec}.{ts,tsx}"
   ],
   "references": [
     {

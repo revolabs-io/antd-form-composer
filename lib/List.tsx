@@ -1,9 +1,8 @@
 import { Form, FormListFieldData, FormListOperation, RowProps } from 'antd';
-import { NamePath } from 'antd/es/form/interface';
 import React, { Fragment } from 'react';
 
 import { FormComposerItems } from './Items';
-import type { FormComposerItemType } from './types';
+import type { FormComposerItemType, NamePath } from './types';
 
 export interface FormComposerListProps {
   name: NamePath;
@@ -61,7 +60,7 @@ export const FormComposerList: React.FC<FormComposerListProps> = (props) => {
           return listRender(fieldItems, fields, operation);
         }
 
-        return fieldItems;
+        return <>{fieldItems}</>;
       }}
     </Form.List>
   );

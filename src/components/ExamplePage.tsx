@@ -7,6 +7,7 @@ import { ResultPanel } from './ResultPanel';
 
 type ExamplePageProps = {
   title: string;
+  description: string;
   whenToUse: ReactNode;
   code: string;
   children: ReactNode;
@@ -17,6 +18,7 @@ type ExamplePageProps = {
 
 export function ExamplePage({
   title,
+  description,
   whenToUse,
   code,
   children,
@@ -26,12 +28,17 @@ export function ExamplePage({
 }: ExamplePageProps) {
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Flex align="center" gap="small">
-        {icon}
-        <Typography.Title level={3} style={{ margin: 0 }}>
-          {title}
-        </Typography.Title>
-      </Flex>
+      <Space direction="vertical" size="small" style={{ width: '100%' }}>
+        <Flex align="center" gap="small">
+          {icon}
+          <Typography.Title level={3} style={{ margin: 0 }}>
+            {title}
+          </Typography.Title>
+        </Flex>
+        <Typography.Paragraph type="secondary" style={{ marginBottom: 0 }}>
+          {description}
+        </Typography.Paragraph>
+      </Space>
 
       <Space direction="vertical" size="small" style={{ width: '100%' }}>
         <Typography.Title level={4} style={{ margin: 0 }}>

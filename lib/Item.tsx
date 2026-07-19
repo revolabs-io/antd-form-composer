@@ -1,10 +1,22 @@
 import { Col, Form, FormInstance, FormListFieldData, FormProps } from 'antd';
-import { NamePath } from 'antd/es/form/interface';
 import React, { useCallback, useMemo } from 'react';
 
 import { get, isEmpty } from './helper';
 import { registeredComponents } from './register-component';
-import { AnyObject, ColSpanType, FormComposerItemType } from './types';
+import {
+  AnyObject,
+  ColSpanType,
+  FormComposerItemType,
+  NamePath,
+} from './types';
+
+const toNamePathArray = (path?: NamePath | null): Array<string | number> => {
+  if (path === undefined || path === null) {
+    return [];
+  }
+
+  return Array.isArray(path) ? [...path] : [path];
+};
 
 const getInputComponent = (item: FormComposerItemType) => {
   if (item.type === 'hidden') {
@@ -64,21 +76,16 @@ export const FormComposerItem: React.FC<FormComposerItemProps> = (props) => {
       let inputProps = item.inputProps;
       let col = item.col as ColSpanType;
 
-      let contextNamePath: NamePath[] = [];
-
-      if (Array.isArray(dynamicListName)) {
-        contextNamePath = [...dynamicListName];
-      }
-
-      const newRootNamePath = [...(root || []), ...contextNamePath];
+      const contextNamePath = toNamePathArray(dynamicListName);
+      const newRootNamePath = [...toNamePathArray(root), ...contextNamePath];
 
       if (form) {
         const formValues = form?.getFieldsValue() || {};
 
-        const values = contextNamePath?.length
+        const values = contextNamePath.length
           ? (get(
               formValues,
-              [...newRootNamePath, dynamicListFieldName]
+              [...newRootNamePath, ...toNamePathArray(dynamicListFieldName)]
                 .filter((path) => path !== undefined)
                 .join('.'),
             ) as AnyObject)
@@ -117,13 +124,10 @@ export const FormComposerItem: React.FC<FormComposerItemProps> = (props) => {
       if (isEmpty(itemProps)) {
         content = <InputComponent {...inputProps} />;
       } else {
-        let itemNamePath: NamePath[] = [dynamicListFieldName];
-
-        if (Array.isArray(itemProps.name)) {
-          itemNamePath = [...itemNamePath, ...itemProps.name];
-        } else {
-          itemNamePath = [...itemNamePath, itemProps.name];
-        }
+        let itemNamePath: Array<string | number> = [
+          ...toNamePathArray(dynamicListFieldName),
+          ...toNamePathArray(itemProps.name as NamePath | undefined),
+        ];
 
         itemNamePath = itemNamePath.filter((path) => path !== undefined);
 

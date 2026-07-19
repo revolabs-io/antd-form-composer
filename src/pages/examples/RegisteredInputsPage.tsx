@@ -238,7 +238,7 @@ export function RegisteredInputsPage() {
           inputProps: {},
         },
         {
-          type: 'switch',
+          type: 'checkbox',
           col: { xs: 24, md: 8 },
           itemProps: {
             label: 'Featured on homepage',
@@ -255,6 +255,21 @@ export function RegisteredInputsPage() {
             name: 'priority',
           },
           inputProps: {},
+        },
+        {
+          type: 'checkbox-group',
+          col: 24,
+          itemProps: {
+            label: 'Distribution channels',
+            name: 'channels',
+          },
+          inputProps: {
+            options: [
+              { label: 'Email', value: 'email' },
+              { label: 'Push', value: 'push' },
+              { label: 'RSS', value: 'rss' },
+            ],
+          },
         },
         {
           type: 'slider',
@@ -277,6 +292,7 @@ export function RegisteredInputsPage() {
   return (
     <ExamplePage
       title={meta.title}
+      description={meta.description}
       whenToUse={meta.whenToUse}
       icon={meta.icon}
       code={REGISTERED_INPUTS_CODE}
@@ -399,6 +415,7 @@ export function RegisteredInputsPage() {
         initialValues={{
           indexable: true,
           featured: false,
+          channels: ['email'],
           canonical: 'self',
           sitemapPriority: 0.5,
           priority: 3,

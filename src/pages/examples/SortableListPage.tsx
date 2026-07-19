@@ -175,6 +175,7 @@ export function SortableListPage() {
   return (
     <ExamplePage
       title={meta.title}
+      description={meta.description}
       whenToUse={meta.whenToUse}
       icon={meta.icon}
       code={SORTABLE_LIST_CODE}

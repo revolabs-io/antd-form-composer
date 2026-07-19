@@ -9,6 +9,7 @@ import { FormComposerItemsPage } from './pages/examples/FormComposerItemsPage';
 import { ListPage } from './pages/examples/ListPage';
 import { NestedListPage } from './pages/examples/NestedListPage';
 import { RegisteredInputsPage } from './pages/examples/RegisteredInputsPage';
+import { ResponsiveLayoutPage } from './pages/examples/ResponsiveLayoutPage';
 import { SortableListPage } from './pages/examples/SortableListPage';
 import { ValidatorsPage } from './pages/examples/ValidatorsPage';
 import { HomePage } from './pages/HomePage';
@@ -20,6 +21,10 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="examples" element={<ExamplesIndexPage />} />
         <Route path="examples/basic" element={<BasicPage />} />
+        <Route
+          path="examples/responsive-layout"
+          element={<ResponsiveLayoutPage />}
+        />
         <Route
           path="examples/registered-inputs"
           element={<RegisteredInputsPage />}

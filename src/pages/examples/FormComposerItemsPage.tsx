@@ -136,6 +136,7 @@ export function FormComposerItemsPage() {
   return (
     <ExamplePage
       title={meta.title}
+      description={meta.description}
       whenToUse={meta.whenToUse}
       icon={meta.icon}
       code={FORM_COMPOSER_ITEMS_CODE}
