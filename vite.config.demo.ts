@@ -1,7 +1,6 @@
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import monacoEditorPlugin from 'vite-plugin-monaco-editor';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 const monacoPluginFactory =
   typeof monacoEditorPlugin === 'function'
@@ -13,9 +12,11 @@ const monacoPluginFactory =
       ).default;
 
 export default defineConfig({
+  resolve: {
+    tsconfigPaths: true,
+  },
   plugins: [
     react(),
-    tsconfigPaths(),
     monacoPluginFactory({
       languageWorkers: ['editorWorkerService', 'typescript'],
     }),
