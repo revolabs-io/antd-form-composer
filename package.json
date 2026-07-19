@@ -82,6 +82,7 @@
     "@vitejs/plugin-react": "6.0.3",
     "antd": "6.5.1",
     "devmoji": "2.3.0",
+    "esbuild": "^0.27.0",
     "eslint": "9.39.5",
     "eslint-config-prettier": "9.1.2",
     "eslint-plugin-import": "2.32.0",
