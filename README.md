@@ -12,7 +12,7 @@ Works with **Ant Design 4, 5, and 6** in the same package — no major-specific 
 | **v5** (`^5.0.0`) | ✅ | React ≥ 16 |
 | **v6** (`^6.0.0`) | ✅ | React ≥ 18 (required by antd 6) |
 
-CI runs type-check, tests, and build against each major. Peer range:
+CI type-checks the library, runs tests, and builds across antd 4/5/6 × supported React majors (the demo site is type-checked on antd 5+ with React 18+ only). Peer range:
 
 ```text
 antd: ^4.0.0 || ^5.0.0 || ^6.0.0

@@ -13,10 +13,25 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # antd 4: React 16–18 (antd 4 does not target React 19)
           - antd: 4
+            react: 16
+          - antd: 4
+            react: 17
+          - antd: 4
+            react: 18
+          # antd 5: React 16–19
+          - antd: 5
+            react: 16
+          - antd: 5
+            react: 17
+          - antd: 5
             react: 18
           - antd: 5
             react: 19
+          # antd 6: React ≥ 18 only
+          - antd: 6
+            react: 18
           - antd: 6
             react: 19
     steps:
@@ -40,11 +55,21 @@ jobs:
       - name: Install matrix versions
         run: |
           pnpm add -D antd@${{ matrix.antd }} react@${{ matrix.react }} react-dom@${{ matrix.react }} @types/react@${{ matrix.react }} @types/react-dom@${{ matrix.react }}
+          # RTL 13+ requires React 18+ (react-dom/client). Use RTL 12 for React 16/17.
+          if [ "${{ matrix.react }}" -lt 18 ]; then
+            pnpm add -D @testing-library/react@12
+          fi
 
       - name: Lint
         run: pnpm run lint
 
-      - name: Type check
+      # Library must type-check against every antd/react pair in the peer range.
+      - name: Type check library
+        run: pnpm run type-check:lib
+
+      # Demo app targets antd 5+ APIs and React 18+ (createRoot, App, Flex, …).
+      - name: Type check demo
+        if: matrix.antd != 4 && matrix.react >= 18
         run: pnpm run type-check
 
       - name: Test
