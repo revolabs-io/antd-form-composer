@@ -1,8 +1,12 @@
 import { FormComposer, FormComposerItemType } from '@lib';
-import { Alert, Button, Card } from 'antd';
+import { Button } from 'antd';
 import { useMemo, useState } from 'react';
 
 import { ExamplePage } from '../../components/ExamplePage';
+import { EXAMPLES } from '../../examples';
+import { BASIC_CODE } from './code-snippets';
+
+const meta = EXAMPLES.find((item) => item.key === 'basic')!;
 
 export function BasicPage() {
   const [values, setValues] = useState<unknown>(null);
@@ -81,30 +85,23 @@ export function BasicPage() {
 
   return (
     <ExamplePage
-      title="Create article"
-      description="Typical CMS create-article screen: title, workflow status, excerpt for cards, and body content — composed with FormComposer items."
+      title={meta.title}
+      whenToUse={meta.whenToUse}
+      icon={meta.icon}
+      code={BASIC_CODE}
       values={values}
     >
-      <Alert
-        type="info"
-        showIcon
-        style={{ marginBottom: 16 }}
-        message="CMS use case"
-        description="Editors create a new blog article before it moves through draft → review → published."
-      />
-      <Card>
-        <FormComposer
-          layout="vertical"
-          items={items}
-          onFinish={setValues}
-          initialValues={{ status: 'draft' }}
-          rowProps={{ gutter: [16, 0] }}
-        >
-          <Button type="primary" htmlType="submit">
-            Save article
-          </Button>
-        </FormComposer>
-      </Card>
+      <FormComposer
+        layout="vertical"
+        items={items}
+        onFinish={setValues}
+        initialValues={{ status: 'draft' }}
+        rowProps={{ gutter: [16, 0] }}
+      >
+        <Button type="primary" htmlType="submit">
+          Save article
+        </Button>
+      </FormComposer>
     </ExamplePage>
   );
 }

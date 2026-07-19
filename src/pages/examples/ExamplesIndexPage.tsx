@@ -1,39 +1,37 @@
-import { Card, Col, Row, Typography } from 'antd';
+import { Card, Col, Row, Space, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 
 import { EXAMPLES } from '../../examples';
 
 export function ExamplesIndexPage() {
   return (
-    <div>
-      <Typography.Title level={3} style={{ marginTop: 0 }}>
-        CMS examples
-      </Typography.Title>
-      <Typography.Paragraph type="secondary">
-        Real admin-form scenarios for building a content management system with
-        antd-form-composer. Open any example from the sidebar or the cards
-        below.
-      </Typography.Paragraph>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Space direction="vertical" size="small" style={{ width: '100%' }}>
+        <Typography.Title level={3} style={{ margin: 0 }}>
+          Examples
+        </Typography.Title>
+        <Typography.Paragraph type="secondary" style={{ marginBottom: 0 }}>
+          Interactive demos for every core capability of antd-form-composer —
+          aligned with the library README. Each page includes When to use, plus
+          Live view and Code tabs.
+        </Typography.Paragraph>
+      </Space>
 
       <Row gutter={[16, 16]}>
         {EXAMPLES.map((example) => (
           <Col xs={24} md={12} xl={8} key={example.key}>
-            <Link
-              to={example.path}
-              style={{ display: 'block', height: '100%' }}
-            >
-              <Card hoverable title={example.title} style={{ height: '100%' }}>
-                <Typography.Paragraph
-                  type="secondary"
-                  style={{ marginBottom: 0 }}
-                >
-                  {example.description}
-                </Typography.Paragraph>
+            <Link to={example.path}>
+              <Card hoverable style={{ height: '100%' }}>
+                <Card.Meta
+                  avatar={example.icon}
+                  title={example.title}
+                  description={example.description}
+                />
               </Card>
             </Link>
           </Col>
         ))}
       </Row>
-    </div>
+    </Space>
   );
 }

@@ -1,8 +1,13 @@
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { FormComposer, FormComposerItemType } from '@lib';
-import { Alert, Button, Card, Space } from 'antd';
+import { Button, Card, Space } from 'antd';
 import { useMemo, useState } from 'react';
 
 import { ExamplePage } from '../../components/ExamplePage';
+import { EXAMPLES } from '../../examples';
+import { LIST_CODE } from './code-snippets';
+
+const meta = EXAMPLES.find((item) => item.key === 'list')!;
 
 export function ListPage() {
   const [values, setValues] = useState<unknown>(null);
@@ -38,8 +43,13 @@ export function ListPage() {
                 size="middle"
               >
                 {content}
-                <Button type="dashed" onClick={() => add()} block>
-                  + Add FAQ item
+                <Button
+                  type="dashed"
+                  icon={<PlusOutlined />}
+                  onClick={() => add()}
+                  block
+                >
+                  Add FAQ item
                 </Button>
               </Space>
             ),
@@ -49,7 +59,12 @@ export function ListPage() {
                 title={`FAQ #${field.name + 1}`}
                 key={field.key}
                 extra={
-                  <Button type="link" danger onClick={() => remove(field.name)}>
+                  <Button
+                    type="link"
+                    danger
+                    icon={<DeleteOutlined />}
+                    onClick={() => remove(field.name)}
+                  >
                     Remove
                   </Button>
                 }
@@ -116,40 +131,33 @@ export function ListPage() {
 
   return (
     <ExamplePage
-      title="FAQ blocks"
-      description="Repeatable CMS FAQ blocks on a marketing page — add, edit, and remove questions with type list."
+      title={meta.title}
+      whenToUse={meta.whenToUse}
+      icon={meta.icon}
+      code={LIST_CODE}
       values={values}
     >
-      <Alert
-        type="info"
-        showIcon
-        style={{ marginBottom: 16 }}
-        message="CMS use case"
-        description="Editors maintain an FAQ section for a pricing page without developer help."
-      />
-      <Card>
-        <FormComposer
-          layout="vertical"
-          items={items}
-          onFinish={setValues}
-          initialValues={{
-            pageTitle: 'Pricing FAQ',
-            faqs: [
-              {
-                question: 'Do you offer annual billing?',
-                answer: 'Yes, with two months free.',
-                audience: 'all',
-                highlighted: true,
-              },
-            ],
-          }}
-          rowProps={{ gutter: [16, 0] }}
-        >
-          <Button type="primary" htmlType="submit" style={{ marginTop: 16 }}>
-            Save FAQ section
-          </Button>
-        </FormComposer>
-      </Card>
+      <FormComposer
+        layout="vertical"
+        items={items}
+        onFinish={setValues}
+        initialValues={{
+          pageTitle: 'Pricing FAQ',
+          faqs: [
+            {
+              question: 'Do you offer annual billing?',
+              answer: 'Yes, with two months free.',
+              audience: 'all',
+              highlighted: true,
+            },
+          ],
+        }}
+        rowProps={{ gutter: [16, 0] }}
+      >
+        <Button type="primary" htmlType="submit" style={{ marginTop: 16 }}>
+          Save FAQ section
+        </Button>
+      </FormComposer>
     </ExamplePage>
   );
 }

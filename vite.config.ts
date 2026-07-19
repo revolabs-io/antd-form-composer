@@ -4,7 +4,17 @@ import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import dts from 'vite-plugin-dts';
+import monacoEditorPlugin from 'vite-plugin-monaco-editor';
 import tsconfigPaths from 'vite-tsconfig-paths';
+
+const monacoPluginFactory =
+  typeof monacoEditorPlugin === 'function'
+    ? monacoEditorPlugin
+    : (
+        monacoEditorPlugin as unknown as {
+          default: typeof monacoEditorPlugin;
+        }
+      ).default;
 
 export default defineConfig(() => {
   return {
@@ -19,6 +29,11 @@ export default defineConfig(() => {
 
       // Enable TypeScript path aliases
       tsconfigPaths(),
+
+      // Monaco workers for demo code blocks
+      monacoPluginFactory({
+        languageWorkers: ['editorWorkerService', 'typescript'],
+      }),
 
       // Generate TypeScript declaration files
       dts({

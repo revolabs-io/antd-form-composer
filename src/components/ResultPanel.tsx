@@ -8,15 +8,12 @@ export function ResultPanel({ values }: ResultPanelProps) {
   const hasValues = values !== null && values !== undefined;
 
   return (
-    <Card
-      size="small"
-      title="Submitted values"
-      className="result-panel"
-      style={{ marginTop: 24 }}
-    >
+    <Card size="small" title="Submitted values" type="inner">
       {hasValues ? (
-        <Typography.Paragraph>
-          <pre>{JSON.stringify(values, null, 2)}</pre>
+        <Typography.Paragraph style={{ marginBottom: 0 }}>
+          <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
+            {JSON.stringify(values, null, 2)}
+          </pre>
         </Typography.Paragraph>
       ) : (
         <Empty

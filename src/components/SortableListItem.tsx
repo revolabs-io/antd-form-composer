@@ -1,4 +1,4 @@
-import { HolderOutlined } from '@ant-design/icons';
+import { DeleteOutlined, HolderOutlined } from '@ant-design/icons';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Button, Card, Space } from 'antd';
@@ -52,7 +52,12 @@ export function SortableListItem({
           </Space>
         }
         extra={
-          <Button type="link" danger onClick={onRemove}>
+          <Button
+            type="link"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={onRemove}
+          >
             Remove
           </Button>
         }

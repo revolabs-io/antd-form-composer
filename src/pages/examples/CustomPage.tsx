@@ -1,11 +1,15 @@
 import { FormComposer, FormComposerItemType } from '@lib';
-import { Alert, Button, Card, Cascader, Form } from 'antd';
+import { Button, Cascader, Form } from 'antd';
 import { useMemo, useState } from 'react';
 
 import { CATEGORY_TREE } from '../../cms/mockApi';
-import { MediaPicker } from '../../components/cms/MediaPicker';
-import { SlugInput } from '../../components/cms/SlugInput';
 import { ExamplePage } from '../../components/ExamplePage';
+import { MediaPicker } from '../../components/MediaPicker';
+import { SlugInput } from '../../components/SlugInput';
+import { EXAMPLES } from '../../examples';
+import { CUSTOM_CODE } from './code-snippets';
+
+const meta = EXAMPLES.find((item) => item.key === 'custom')!;
 
 export function CustomPage() {
   const [form] = Form.useForm();
@@ -81,31 +85,24 @@ export function CustomPage() {
 
   return (
     <ExamplePage
-      title="Custom CMS fields"
-      description="CMS-specific inputs via type custom: slug generator, category cascader, and media library picker — no global registration required."
+      title={meta.title}
+      whenToUse={meta.whenToUse}
+      icon={meta.icon}
+      code={CUSTOM_CODE}
       values={values}
     >
-      <Alert
-        type="info"
-        showIcon
-        style={{ marginBottom: 16 }}
-        message="CMS use case"
-        description="When creating a resource page, editors generate a slug, pick a taxonomy path, and choose a cover from the media library."
-      />
-      <Card>
-        <FormComposer
-          form={form}
-          layout="vertical"
-          items={items}
-          onFinish={setValues}
-          initialValues={{ title: 'Customer stories' }}
-          rowProps={{ gutter: [16, 0] }}
-        >
-          <Button type="primary" htmlType="submit">
-            Save page
-          </Button>
-        </FormComposer>
-      </Card>
+      <FormComposer
+        form={form}
+        layout="vertical"
+        items={items}
+        onFinish={setValues}
+        initialValues={{ title: 'Customer stories' }}
+        rowProps={{ gutter: [16, 0] }}
+      >
+        <Button type="primary" htmlType="submit">
+          Save page
+        </Button>
+      </FormComposer>
     </ExamplePage>
   );
 }

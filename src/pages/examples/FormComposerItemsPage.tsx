@@ -1,8 +1,17 @@
+import {
+  AppstoreOutlined,
+  FormOutlined,
+  MergeCellsOutlined,
+} from '@ant-design/icons';
 import { FormComposerItems, FormComposerItemType } from '@lib';
-import { Alert, Button, Card, Form, Input, Space } from 'antd';
+import { Alert, Button, Card, Form, Input, Space, Tag, Typography } from 'antd';
 import { useMemo, useState } from 'react';
 
 import { ExamplePage } from '../../components/ExamplePage';
+import { EXAMPLES } from '../../examples';
+import { FORM_COMPOSER_ITEMS_CODE } from './code-snippets';
+
+const meta = EXAMPLES.find((item) => item.key === 'form-composer-items')!;
 
 export function FormComposerItemsPage() {
   const [form] = Form.useForm();
@@ -126,17 +135,29 @@ export function FormComposerItemsPage() {
 
   return (
     <ExamplePage
-      title="Multi-section editor"
-      description="A full CMS content editor: Content, SEO, and Publish sections via FormComposerItems inside a native Ant Design Form, plus a regular Form.Item for notes."
+      title={meta.title}
+      whenToUse={meta.whenToUse}
+      icon={meta.icon}
+      code={FORM_COMPOSER_ITEMS_CODE}
       values={values}
     >
       <Alert
         type="info"
         showIcon
-        style={{ marginBottom: 16 }}
-        message="CMS use case"
-        description="Editors work through clearly separated sections in one save action — composition where it helps, native Form.Item where you need full control."
+        icon={<MergeCellsOutlined />}
+        message="Feature: FormComposerItems inside native Form"
+        description={
+          <Typography.Paragraph style={{ marginBottom: 0 }}>
+            Keep a full Ant Design <Typography.Text code>Form</Typography.Text>{' '}
+            for layout and props, then drop in{' '}
+            <Typography.Text code>FormComposerItems</Typography.Text> for
+            composed sections and regular{' '}
+            <Typography.Text code>Form.Item</Typography.Text> where you need
+            full control.
+          </Typography.Paragraph>
+        }
       />
+
       <Form
         form={form}
         layout="vertical"
@@ -148,28 +169,77 @@ export function FormComposerItemsPage() {
         }}
       >
         <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-          <Card title="Content" size="small">
+          <Card
+            size="small"
+            title={
+              <Space>
+                <AppstoreOutlined />
+                Content section
+                <Tag color="blue">FormComposerItems</Tag>
+              </Space>
+            }
+          >
+            <Typography.Paragraph type="secondary">
+              Composed fields rendered by FormComposerItems — title, locale, and
+              body.
+            </Typography.Paragraph>
             <FormComposerItems
               items={contentItems}
               rowProps={{ gutter: [16, 0] }}
             />
           </Card>
 
-          <Card title="SEO" size="small">
+          <Card
+            size="small"
+            title={
+              <Space>
+                <AppstoreOutlined />
+                SEO section
+                <Tag color="blue">FormComposerItems</Tag>
+              </Space>
+            }
+          >
+            <Typography.Paragraph type="secondary">
+              Another FormComposerItems block in the same Form instance.
+            </Typography.Paragraph>
             <FormComposerItems
               items={seoItems}
               rowProps={{ gutter: [16, 0] }}
             />
           </Card>
 
-          <Card title="Publish" size="small">
+          <Card
+            size="small"
+            title={
+              <Space>
+                <AppstoreOutlined />
+                Publish section
+                <Tag color="blue">FormComposerItems</Tag>
+              </Space>
+            }
+          >
+            <Typography.Paragraph type="secondary">
+              Composed publish settings still share one form submit.
+            </Typography.Paragraph>
             <FormComposerItems
               items={publishItems}
               rowProps={{ gutter: [16, 0] }}
             />
           </Card>
 
-          <Card title="Internal notes" size="small">
+          <Card
+            size="small"
+            title={
+              <Space>
+                <FormOutlined />
+                Native Form.Item
+                <Tag>Form.Item</Tag>
+              </Space>
+            }
+          >
+            <Typography.Paragraph type="secondary">
+              Mix a regular Ant Design Form.Item alongside composed sections.
+            </Typography.Paragraph>
             <Form.Item label="Editor notes" name="editorNotes">
               <Input.TextArea
                 rows={3}

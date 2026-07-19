@@ -1,10 +1,14 @@
 import { FormComposer, FormComposerItemType } from '@lib';
-import { Alert, Button, Card } from 'antd';
+import { Button } from 'antd';
 import type { RuleObject } from 'antd/es/form';
 import { useMemo, useState } from 'react';
 
 import { checkSlugAvailable } from '../../cms/mockApi';
 import { ExamplePage } from '../../components/ExamplePage';
+import { EXAMPLES } from '../../examples';
+import { VALIDATORS_CODE } from './code-snippets';
+
+const meta = EXAMPLES.find((item) => item.key === 'validators')!;
 
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -94,7 +98,6 @@ export function ValidatorsPage() {
             name: 'editorEmail',
             rules: [
               { required: true, message: 'Editor email is required' },
-              { type: 'email', message: 'Enter a valid email' },
               {
                 pattern: /@company\.com$/i,
                 message: 'CMS accounts must use an @company.com address',
@@ -168,7 +171,6 @@ export function ValidatorsPage() {
                   if (
                     !value ||
                     !start ||
-                    // dayjs-compatible comparison used by Ant Design DatePicker
                     (value as { isAfter?: (v: unknown) => boolean }).isAfter?.(
                       start,
                     ) ||
@@ -195,29 +197,22 @@ export function ValidatorsPage() {
 
   return (
     <ExamplePage
-      title="Validators"
-      description="CMS validation patterns: async unique-slug lookup, reserved paths, complex password policy, confirm-password dependency, and cross-field campaign dates."
+      title={meta.title}
+      whenToUse={meta.whenToUse}
+      icon={meta.icon}
+      code={VALIDATORS_CODE}
       values={values}
     >
-      <Alert
-        type="info"
-        showIcon
-        style={{ marginBottom: 16 }}
-        message="CMS use case"
-        description="When creating a marketed landing page, the CMS must guarantee a unique slug, invite an internal editor, and ensure the campaign window is valid before publish."
-      />
-      <Card>
-        <FormComposer
-          layout="vertical"
-          items={items}
-          onFinish={setValues}
-          rowProps={{ gutter: [16, 0] }}
-        >
-          <Button type="primary" htmlType="submit">
-            Create page & invite editor
-          </Button>
-        </FormComposer>
-      </Card>
+      <FormComposer
+        layout="vertical"
+        items={items}
+        onFinish={setValues}
+        rowProps={{ gutter: [16, 0] }}
+      >
+        <Button type="primary" htmlType="submit">
+          Create page & invite editor
+        </Button>
+      </FormComposer>
     </ExamplePage>
   );
 }

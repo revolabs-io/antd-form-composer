@@ -1,7 +1,7 @@
 import './register';
 import './styles.css';
 
-import { ConfigProvider } from 'antd';
+import { App as AntApp, ConfigProvider } from 'antd';
 import enUS from 'antd/locale/en_US';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
@@ -12,9 +12,11 @@ import App from './App';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ConfigProvider locale={enUS}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <AntApp>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AntApp>
     </ConfigProvider>
   </StrictMode>,
 );

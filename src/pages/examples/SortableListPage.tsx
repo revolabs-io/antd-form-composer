@@ -1,3 +1,4 @@
+import { PlusOutlined } from '@ant-design/icons';
 import {
   closestCenter,
   DndContext,
@@ -13,17 +14,15 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { FormComposer, FormComposerItemType } from '@lib';
-import {
-  Alert,
-  Button,
-  Card,
-  FormListFieldData,
-  FormListOperation,
-} from 'antd';
+import { Button, FormListFieldData, FormListOperation } from 'antd';
 import { ReactNode, useMemo, useState } from 'react';
 
-import { SortableListItem } from '../../components/cms/SortableListItem';
 import { ExamplePage } from '../../components/ExamplePage';
+import { SortableListItem } from '../../components/SortableListItem';
+import { EXAMPLES } from '../../examples';
+import { SORTABLE_LIST_CODE } from './code-snippets';
+
+const meta = EXAMPLES.find((item) => item.key === 'sortable-list')!;
 
 function SortableHeroList({
   content,
@@ -69,11 +68,12 @@ function SortableHeroList({
       </SortableContext>
       <Button
         type="dashed"
+        icon={<PlusOutlined />}
         onClick={() => operation.add({ headline: '', ctaLabel: 'Learn more' })}
         block
         style={{ marginTop: 8 }}
       >
-        + Add hero slide
+        Add hero slide
       </Button>
     </DndContext>
   );
@@ -174,49 +174,42 @@ export function SortableListPage() {
 
   return (
     <ExamplePage
-      title="Sortable hero slides"
-      description="Drag and drop homepage hero slides to set display order. Order updates Form.List via operation.move."
+      title={meta.title}
+      whenToUse={meta.whenToUse}
+      icon={meta.icon}
+      code={SORTABLE_LIST_CODE}
       values={values}
     >
-      <Alert
-        type="info"
-        showIcon
-        style={{ marginBottom: 16 }}
-        message="CMS use case"
-        description="Marketing editors reorder homepage carousel slides; the saved array order is what the frontend renders."
-      />
-      <Card>
-        <FormComposer
-          layout="vertical"
-          items={items}
-          onFinish={setValues}
-          initialValues={{
-            campaignName: 'Spring launch',
-            slides: [
-              {
-                headline: 'Ship content in hours',
-                ctaLabel: 'Start free',
-                ctaUrl: 'https://example.com/signup',
-              },
-              {
-                headline: 'Built for editors',
-                ctaLabel: 'See product',
-                ctaUrl: 'https://example.com/product',
-              },
-              {
-                headline: 'Enterprise-ready',
-                ctaLabel: 'Talk to sales',
-                ctaUrl: 'https://example.com/contact',
-              },
-            ],
-          }}
-          rowProps={{ gutter: [16, 0] }}
-        >
-          <Button type="primary" htmlType="submit" style={{ marginTop: 16 }}>
-            Save homepage slides
-          </Button>
-        </FormComposer>
-      </Card>
+      <FormComposer
+        layout="vertical"
+        items={items}
+        onFinish={setValues}
+        initialValues={{
+          campaignName: 'Spring launch',
+          slides: [
+            {
+              headline: 'Ship content in hours',
+              ctaLabel: 'Start free',
+              ctaUrl: 'https://example.com/signup',
+            },
+            {
+              headline: 'Built for editors',
+              ctaLabel: 'See product',
+              ctaUrl: 'https://example.com/product',
+            },
+            {
+              headline: 'Enterprise-ready',
+              ctaLabel: 'Talk to sales',
+              ctaUrl: 'https://example.com/contact',
+            },
+          ],
+        }}
+        rowProps={{ gutter: [16, 0] }}
+      >
+        <Button type="primary" htmlType="submit" style={{ marginTop: 16 }}>
+          Save homepage slides
+        </Button>
+      </FormComposer>
     </ExamplePage>
   );
 }

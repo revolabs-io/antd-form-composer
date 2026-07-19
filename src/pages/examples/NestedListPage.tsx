@@ -1,8 +1,13 @@
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { FormComposer, FormComposerItemType } from '@lib';
-import { Alert, Button, Card, Space } from 'antd';
+import { Button, Card, Space } from 'antd';
 import { useMemo, useState } from 'react';
 
 import { ExamplePage } from '../../components/ExamplePage';
+import { EXAMPLES } from '../../examples';
+import { NESTED_LIST_CODE } from './code-snippets';
+
+const meta = EXAMPLES.find((item) => item.key === 'nested-list')!;
 
 export function NestedListPage() {
   const [values, setValues] = useState<unknown>(null);
@@ -52,8 +57,13 @@ export function NestedListPage() {
                 size="middle"
               >
                 {content}
-                <Button type="dashed" onClick={() => add()} block>
-                  + Add top-level item
+                <Button
+                  type="dashed"
+                  icon={<PlusOutlined />}
+                  onClick={() => add()}
+                  block
+                >
+                  Add top-level item
                 </Button>
               </Space>
             ),
@@ -63,7 +73,12 @@ export function NestedListPage() {
                 title={`Nav item ${field.name + 1}`}
                 key={field.key}
                 extra={
-                  <Button type="link" danger onClick={() => remove(field.name)}>
+                  <Button
+                    type="link"
+                    danger
+                    icon={<DeleteOutlined />}
+                    onClick={() => remove(field.name)}
+                  >
                     Remove
                   </Button>
                 }
@@ -107,8 +122,13 @@ export function NestedListPage() {
                       size="small"
                     >
                       {content}
-                      <Button type="dashed" onClick={() => add()} block>
-                        + Add child link
+                      <Button
+                        type="dashed"
+                        icon={<PlusOutlined />}
+                        onClick={() => add()}
+                        block
+                      >
+                        Add child link
                       </Button>
                     </Space>
                   ),
@@ -122,6 +142,7 @@ export function NestedListPage() {
                         <Button
                           type="link"
                           danger
+                          icon={<DeleteOutlined />}
                           onClick={() => remove(field.name)}
                         >
                           Remove
@@ -168,43 +189,36 @@ export function NestedListPage() {
 
   return (
     <ExamplePage
-      title="Navigation menu"
-      description="Nested Form.List for a CMS navigation builder — top-level items with optional child links."
+      title={meta.title}
+      whenToUse={meta.whenToUse}
+      icon={meta.icon}
+      code={NESTED_LIST_CODE}
       values={values}
     >
-      <Alert
-        type="info"
-        showIcon
-        style={{ marginBottom: 16 }}
-        message="CMS use case"
-        description="Site admins maintain header/footer menus as nested structures that map 1:1 to the frontend nav tree."
-      />
-      <Card>
-        <FormComposer
-          layout="vertical"
-          items={items}
-          onFinish={setValues}
-          initialValues={{
-            menuName: 'Primary header',
-            placement: 'header',
-            items: [
-              {
-                label: 'Product',
-                path: '/product',
-                children: [
-                  { label: 'Features', path: '/product/features' },
-                  { label: 'Pricing', path: '/pricing' },
-                ],
-              },
-            ],
-          }}
-          rowProps={{ gutter: [16, 0] }}
-        >
-          <Button type="primary" htmlType="submit" style={{ marginTop: 16 }}>
-            Save navigation
-          </Button>
-        </FormComposer>
-      </Card>
+      <FormComposer
+        layout="vertical"
+        items={items}
+        onFinish={setValues}
+        initialValues={{
+          menuName: 'Primary header',
+          placement: 'header',
+          items: [
+            {
+              label: 'Product',
+              path: '/product',
+              children: [
+                { label: 'Features', path: '/product/features' },
+                { label: 'Pricing', path: '/pricing' },
+              ],
+            },
+          ],
+        }}
+        rowProps={{ gutter: [16, 0] }}
+      >
+        <Button type="primary" htmlType="submit" style={{ marginTop: 16 }}>
+          Save navigation
+        </Button>
+      </FormComposer>
     </ExamplePage>
   );
 }

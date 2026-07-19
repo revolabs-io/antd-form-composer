@@ -1,6 +1,6 @@
 import { Image, Radio, Space, Typography } from 'antd';
 
-import { MEDIA_LIBRARY } from '../../cms/mockApi';
+import { MEDIA_LIBRARY } from '../cms/mockApi';
 
 export type MediaPickerProps = {
   value?: string;

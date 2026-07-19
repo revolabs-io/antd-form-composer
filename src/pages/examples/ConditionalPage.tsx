@@ -1,8 +1,12 @@
 import { AnyObject, FormComposer, FormComposerItemType } from '@lib';
-import { Alert, Button, Card, FormInstance } from 'antd';
+import { Button, FormInstance } from 'antd';
 import { useMemo, useState } from 'react';
 
 import { ExamplePage } from '../../components/ExamplePage';
+import { EXAMPLES } from '../../examples';
+import { CONDITIONAL_CODE } from './code-snippets';
+
+const meta = EXAMPLES.find((item) => item.key === 'conditional')!;
 
 export function ConditionalPage() {
   const [values, setValues] = useState<unknown>(null);
@@ -134,30 +138,23 @@ export function ConditionalPage() {
 
   return (
     <ExamplePage
-      title="Content type fields"
-      description="Conditional CMS fields: Article, Landing page, and Redirect each reveal a different field set. Nav settings appear only when relevant."
+      title={meta.title}
+      whenToUse={meta.whenToUse}
+      icon={meta.icon}
+      code={CONDITIONAL_CODE}
       values={values}
     >
-      <Alert
-        type="info"
-        showIcon
-        style={{ marginBottom: 16 }}
-        message="CMS use case"
-        description="A single “create content” form adapts to the selected content type so editors only see fields they need."
-      />
-      <Card>
-        <FormComposer
-          layout="vertical"
-          items={items}
-          onFinish={setValues}
-          initialValues={{ contentType: 'article', showInNav: false }}
-          rowProps={{ gutter: [16, 0] }}
-        >
-          <Button type="primary" htmlType="submit">
-            Save content
-          </Button>
-        </FormComposer>
-      </Card>
+      <FormComposer
+        layout="vertical"
+        items={items}
+        onFinish={setValues}
+        initialValues={{ contentType: 'article', showInNav: false }}
+        rowProps={{ gutter: [16, 0] }}
+      >
+        <Button type="primary" htmlType="submit">
+          Save content
+        </Button>
+      </FormComposer>
     </ExamplePage>
   );
 }

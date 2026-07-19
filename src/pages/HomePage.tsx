@@ -1,100 +1,116 @@
-import { Button, Card, Col, List, Row, Space, Tag, Typography } from 'antd';
+import {
+  BookOutlined,
+  CheckCircleOutlined,
+  RocketOutlined,
+} from '@ant-design/icons';
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Flex,
+  Row,
+  Space,
+  Tag,
+  Typography,
+} from 'antd';
 import { Link } from 'react-router-dom';
 
-import { EXAMPLES } from '../examples';
+import { CodeBlock } from '../components/CodeBlock';
+import { EXAMPLES, HOME_FEATURES } from '../examples';
 
-const FEATURES = [
-  {
-    title: 'CMS-ready composition',
-    description:
-      'Declare article, SEO, and publish forms as item configs instead of hand-wiring every Form.Item.',
-  },
-  {
-    title: 'Async & complex validators',
-    description:
-      'Unique slug checks, reserved paths, password policy, and cross-field campaign windows.',
-  },
-  {
-    title: 'Sortable lists',
-    description:
-      'Reorder hero slides or nav items with drag and drop while Form.List stays in sync.',
-  },
-  {
-    title: 'Conditional content types',
-    description:
-      'Show article, landing, or redirect fields based on the selected CMS content type.',
-  },
-  {
-    title: 'Custom CMS fields',
-    description:
-      'Slug generators, media pickers, and taxonomy cascaders via type custom.',
-  },
-  {
-    title: 'Multi-section editors',
-    description:
-      'Mix FormComposerItems with native Ant Design Form for Content / SEO / Publish layouts.',
-  },
-];
+const INSTALL_CODE = `npm install antd-form-composer
+# or
+yarn add antd-form-composer
+# or
+pnpm install antd-form-composer`;
 
 export function HomePage() {
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <div>
-        <Space size="middle" wrap>
+      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Flex align="center" gap="middle" wrap>
           <Typography.Title level={2} style={{ margin: 0 }}>
-            antd-form-composer
+            AntD Form Composer
           </Typography.Title>
-          <Tag color="blue">CMS demos</Tag>
-          <Tag>Ant Design 4 & 5</Tag>
-        </Space>
-        <Typography.Paragraph
-          type="secondary"
-          style={{ marginTop: 12, marginBottom: 0, maxWidth: 720 }}
-        >
-          Interactive examples of composing CMS admin forms — articles, SEO,
-          navigation, validators, sortable hero slides, and custom fields —
-          built with FormComposer on top of Ant Design Form.
+          <Tag color="processing" icon={<CheckCircleOutlined />}>
+            Ant Design 4 & 5
+          </Tag>
+        </Flex>
+        <Typography.Paragraph type="secondary" style={{ marginBottom: 0 }}>
+          A powerful and flexible form composition library for React
+          applications, built on top of Ant Design Form. It provides an
+          intuitive way to create complex forms with dynamic rendering and
+          configuration.
         </Typography.Paragraph>
-      </div>
+      </Space>
 
-      <Space>
+      <Space wrap size="middle">
         <Link to="/examples">
-          <Button type="primary" size="large">
-            Browse CMS examples
+          <Button type="primary" size="large" icon={<RocketOutlined />}>
+            Browse examples
           </Button>
         </Link>
-        <Link to="/examples/validators">
-          <Button size="large">Try validators</Button>
+        <Link to="/examples/basic">
+          <Button size="large" icon={<BookOutlined />}>
+            Quick start
+          </Button>
         </Link>
       </Space>
 
-      <Row gutter={[16, 16]}>
-        {FEATURES.map((feature) => (
-          <Col xs={24} md={12} xl={8} key={feature.title}>
-            <Card
-              size="small"
-              title={feature.title}
-              styles={{ body: { minHeight: 88 } }}
-            >
-              <Typography.Paragraph
-                type="secondary"
-                style={{ marginBottom: 0 }}
-              >
-                {feature.description}
-              </Typography.Paragraph>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Typography.Title level={4} style={{ margin: 0 }}>
+          Features
+        </Typography.Title>
+        <Row gutter={[16, 16]}>
+          {HOME_FEATURES.map((feature) => (
+            <Col xs={24} md={12} xl={8} key={feature.title}>
+              <Card size="small">
+                <Card.Meta
+                  avatar={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                />
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Space>
 
-      <Card title="CMS scenarios covered" size="small">
-        <List
-          dataSource={EXAMPLES.map(
-            (example) => `${example.title} — ${example.description}`,
-          )}
-          renderItem={(item) => <List.Item>{item}</List.Item>}
-        />
-      </Card>
+      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Typography.Title level={4} style={{ margin: 0 }}>
+          Installation
+        </Typography.Title>
+        <CodeBlock code={INSTALL_CODE} language="shell" height={140} />
+      </Space>
+
+      <Divider />
+
+      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Typography.Title level={4} style={{ margin: 0 }}>
+          Examples
+        </Typography.Title>
+        <Typography.Paragraph type="secondary" style={{ marginBottom: 0 }}>
+          Explore the same capabilities documented in the README — basic usage,
+          form lists, nested lists, conditional rendering, custom components,
+          registration, and mixing FormComposerItems with Ant Design Form.
+        </Typography.Paragraph>
+        <Row gutter={[16, 16]}>
+          {EXAMPLES.map((example) => (
+            <Col xs={24} md={12} xl={8} key={example.key}>
+              <Link to={example.path}>
+                <Card hoverable size="small" style={{ height: '100%' }}>
+                  <Card.Meta
+                    avatar={example.icon}
+                    title={example.title}
+                    description={example.description}
+                  />
+                </Card>
+              </Link>
+            </Col>
+          ))}
+        </Row>
+      </Space>
     </Space>
   );
 }
