@@ -8,14 +8,14 @@ Works with **Ant Design 4, 5, and 6** in the same package — no major-specific 
 
 | Ant Design | Supported | React |
 |------------|-----------|-------|
-| **v4** (`^4.24.0`) | ✅ | React ≥ 16 |
+| **v4** (`^4.0.0`) | ✅ | React ≥ 16 |
 | **v5** (`^5.0.0`) | ✅ | React ≥ 16 |
 | **v6** (`^6.0.0`) | ✅ | React ≥ 18 (required by antd 6) |
 
 CI runs type-check, tests, and build against each major. Peer range:
 
 ```text
-antd: ^4.24.0 || ^5.0.0 || ^6.0.0
+antd: ^4.0.0 || ^5.0.0 || ^6.0.0
 ```
 
 Styles are not bundled. Import Ant Design CSS/reset according to your major (for example `antd/dist/antd.css` on v4, or CSS-in-JS / reset on v5+).
@@ -44,7 +44,7 @@ pnpm install antd-form-composer
 
 | Package | Supported versions | Notes |
 |---------|-------------------|-------|
-| `antd` | `^4.24.0 \|\| ^5.0.0 \|\| ^6.0.0` | Use the Ant Design major your app already uses |
+| `antd` | `^4.0.0 \|\| ^5.0.0 \|\| ^6.0.0` | Use the Ant Design major your app already uses |
 | `react` | `>=16` | **antd 6 requires React >= 18** |
 | `react-dom` | `>=16` | Match your React major |
 
