@@ -69,7 +69,7 @@ interface FormItemCheckbox extends FormItemBase {
 }
 
 interface FormItemCheckboxGroup extends FormItemBase {
-  type: 'checkbox';
+  type: 'checkbox-group';
   inputProps:
     | ((form: FormInstance, values: AnyObject) => CheckboxGroupProps)
     | CheckboxGroupProps;

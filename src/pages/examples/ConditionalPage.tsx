@@ -139,6 +139,7 @@ export function ConditionalPage() {
   return (
     <ExamplePage
       title={meta.title}
+      description={meta.description}
       whenToUse={meta.whenToUse}
       icon={meta.icon}
       code={CONDITIONAL_CODE}

@@ -2,11 +2,11 @@ import { FormComposer, FormComposerItemType } from '@lib';
 import { Button, Cascader, Form } from 'antd';
 import { useMemo, useState } from 'react';
 
-import { CATEGORY_TREE } from '../../cms/mockApi';
 import { ExamplePage } from '../../components/ExamplePage';
 import { MediaPicker } from '../../components/MediaPicker';
 import { SlugInput } from '../../components/SlugInput';
 import { EXAMPLES } from '../../examples';
+import { CATEGORY_TREE } from '../../mockApi';
 import { CUSTOM_CODE } from './code-snippets';
 
 const meta = EXAMPLES.find((item) => item.key === 'custom')!;
@@ -86,6 +86,7 @@ export function CustomPage() {
   return (
     <ExamplePage
       title={meta.title}
+      description={meta.description}
       whenToUse={meta.whenToUse}
       icon={meta.icon}
       code={CUSTOM_CODE}

@@ -114,13 +114,40 @@ Register more components as needed:
 
 ```ts
 import { registerInputComponents } from 'antd-form-composer';
-import { DatePicker, InputNumber, Select } from 'antd';
+import { Checkbox, DatePicker, InputNumber, Select } from 'antd';
 
 registerInputComponents({
   'date-picker': DatePicker,
   select: Select,
   number: InputNumber,
+  checkbox: Checkbox,
+  'checkbox-group': Checkbox.Group,
 });
+```
+
+`checkbox` and `checkbox-group` are distinct types — register and use them separately (same pattern as `radio` / `radio-group`):
+
+```ts
+const items = [
+  {
+    type: 'checkbox',
+    itemProps: {
+      label: 'Subscribe',
+      name: 'subscribe',
+      valuePropName: 'checked',
+    },
+  },
+  {
+    type: 'checkbox-group',
+    itemProps: { label: 'Channels', name: 'channels' },
+    inputProps: {
+      options: [
+        { label: 'Email', value: 'email' },
+        { label: 'SMS', value: 'sms' },
+      ],
+    },
+  },
+];
 ```
 
 | Type | Component | Typed | Pre-registered |

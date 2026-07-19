@@ -46,6 +46,7 @@ export default () => (
 export const REGISTERED_INPUTS_CODE = `// src/register.ts — import once from main.tsx
 import { registerInputComponents } from 'antd-form-composer';
 import {
+  Checkbox,
   DatePicker,
   InputNumber,
   Rate,
@@ -58,6 +59,8 @@ registerInputComponents({
   select: Select,
   number: InputNumber,
   'date-picker': DatePicker,
+  checkbox: Checkbox,
+  'checkbox-group': Checkbox.Group,
   switch: Switch,
   rate: Rate,
   slider: Slider,
@@ -86,6 +89,25 @@ const items = [
     type: 'date-picker',
     itemProps: { label: 'Publish at', name: 'publishAt' },
     inputProps: { showTime: true, style: { width: '100%' } },
+  },
+  {
+    type: 'checkbox',
+    itemProps: {
+      label: 'Featured on homepage',
+      name: 'featured',
+      valuePropName: 'checked',
+    },
+  },
+  {
+    type: 'checkbox-group',
+    itemProps: { label: 'Distribution channels', name: 'channels' },
+    inputProps: {
+      options: [
+        { label: 'Email', value: 'email' },
+        { label: 'Push', value: 'push' },
+        { label: 'RSS', value: 'rss' },
+      ],
+    },
   },
   {
     type: 'switch',
@@ -398,3 +420,64 @@ export default () => {
     </Form>
   );
 };`;
+
+export const RESPONSIVE_LAYOUT_CODE = `import { FormComposer } from 'antd-form-composer';
+import { Button } from 'antd';
+
+const fieldCol = (_form, values) =>
+  values?.density === 'compact'
+    ? { xs: 24, sm: 12, md: 8, lg: 8 }
+    : { xs: 24, sm: 12, md: 12, lg: 12 };
+
+const items = [
+  {
+    type: 'select',
+    col: 24,
+    itemProps: { label: 'Density', name: 'density' },
+    inputProps: {
+      options: [
+        { label: 'Comfortable (2 columns)', value: 'comfortable' },
+        { label: 'Compact (3 columns)', value: 'compact' },
+      ],
+    },
+  },
+  // Static number → <Col span={8} />
+  { type: 'text', col: 8, itemProps: { label: 'A', name: 'a' } },
+  { type: 'text', col: 8, itemProps: { label: 'B', name: 'b' } },
+  { type: 'text', col: 8, itemProps: { label: 'C', name: 'c' } },
+  // Responsive ColProps
+  {
+    type: 'text',
+    col: { xs: 24, sm: 12, md: 8, lg: 6 },
+    itemProps: { label: 'City', name: 'city' },
+  },
+  // Dynamic col from form values
+  {
+    type: 'text',
+    col: fieldCol,
+    itemProps: { label: 'First name', name: 'firstName' },
+  },
+  {
+    type: 'text',
+    col: fieldCol,
+    itemProps: { label: 'Last name', name: 'lastName' },
+  },
+  {
+    type: 'textarea',
+    col: 24,
+    itemProps: { label: 'Notes', name: 'notes' },
+  },
+];
+
+export default () => (
+  <FormComposer
+    layout="vertical"
+    items={items}
+    rowProps={{ gutter: [16, 0] }}
+    onFinish={console.log}
+  >
+    <Button type="primary" htmlType="submit">
+      Save profile
+    </Button>
+  </FormComposer>
+);`;

@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Breadcrumb, Card, Flex, Layout, Menu, Space, Typography } from 'antd';
 import type { ReactNode } from 'react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import { EXAMPLES } from '../examples';
@@ -17,6 +17,23 @@ const { Content, Footer, Sider } = Layout;
 
 const SIDER_WIDTH = 260;
 const SIDER_COLLAPSED_WIDTH = 80;
+const SITE_TITLE = 'AntD Form Composer';
+const HOME_DESCRIPTION =
+  'A powerful and flexible form composition library for React applications, built on top of Ant Design Form.';
+const EXAMPLES_DESCRIPTION =
+  'Interactive demos for every core capability of antd-form-composer — aligned with the library README.';
+
+function setPageMeta(title: string, description: string) {
+  document.title = title;
+
+  let meta = document.querySelector('meta[name="description"]');
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.setAttribute('name', 'description');
+    document.head.appendChild(meta);
+  }
+  meta.setAttribute('content', description);
+}
 
 function breadcrumbTitle(icon: ReactNode, label: ReactNode) {
   return (
@@ -75,6 +92,28 @@ export function AppLayout() {
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
   const breadcrumbItems = useBreadcrumbItems(location.pathname);
+
+  useEffect(() => {
+    const { pathname } = location;
+
+    if (pathname === '/') {
+      setPageMeta(SITE_TITLE, HOME_DESCRIPTION);
+      return;
+    }
+
+    if (pathname === '/examples') {
+      setPageMeta(`Examples | ${SITE_TITLE}`, EXAMPLES_DESCRIPTION);
+      return;
+    }
+
+    const example = EXAMPLES.find((item) => item.path === pathname);
+    if (example) {
+      setPageMeta(`${example.title} | ${SITE_TITLE}`, example.description);
+      return;
+    }
+
+    setPageMeta(SITE_TITLE, HOME_DESCRIPTION);
+  }, [location]);
 
   const selectedKeys = useMemo(() => {
     if (location.pathname === '/') {
@@ -216,6 +255,8 @@ export function AppLayout() {
           <Typography.Link href="https://revolabs.io" target="_blank">
             Revolabs
           </Typography.Link>
+          {' · '}
+          Supports Ant Design 4, 5, and 6
         </Footer>
       </Layout>
     </Layout>

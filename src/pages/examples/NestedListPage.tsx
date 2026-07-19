@@ -190,6 +190,7 @@ export function NestedListPage() {
   return (
     <ExamplePage
       title={meta.title}
+      description={meta.description}
       whenToUse={meta.whenToUse}
       icon={meta.icon}
       code={NESTED_LIST_CODE}
